@@ -8,11 +8,26 @@ import com.codename1.ui.events.ActionEvent;
 public class Game extends Form{
 
 	private GameWorld gw;
+	private MapView mv;
+	private ScoreView sv;
 	
 	//game constructor
 	public Game() {
-		gw = new GameWorld();
-		gw.init();
+		gw = new GameWorld(); // create Observable GameWorld
+		mv = new MapView(); // create an Observer for the map
+		sv = new ScoreView(); // create an Observer for the game/player-squirrel
+		//state data
+		
+		gw.addObserver(mv); // register map observer
+		gw.addObserver(sv); // register score observer
+		
+		// code here to create Command objects for each command,
+		// add commands to side menu and title bar area, bind commands to keys, create
+		// control containers for the buttons, add buttons to the control containers,
+		// add commands to the buttons, and add control containers, MapView, and
+		// ScoreView to the form
+		
+		gw.init(); //initialize gameworld
 		play();
 	}
 	

@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.codename1.charts.util.ColorUtil;
 
-public class Squirrel extends Movable implements ISteerable{
+public abstract class Squirrel extends Movable implements ISteerable{
 	
 	private Random random = new Random();
 	private int steeringDirection = 0;

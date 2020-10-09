@@ -1,14 +1,18 @@
 package com.mycompany.myapp;
 
 import java.util.ArrayList;
+import java.util.Observable;
 import java.util.Random;
 
-public class GameWorld {
+public class GameWorld extends Observable{
 	private static int gameClock = 0;
-	private Random random = new Random();
 	private GameObjectCollection gameObjectCollection;
-	private ArrayList<GameObject> gameObjectList;
 	private int livesRemaining = 3;
+	private boolean sound = false;
+	
+	
+	private Random random = new Random();
+	private ArrayList<GameObject> gameObjectList;
 	private Squirrel player;
 	
 	public void init() {
@@ -18,7 +22,7 @@ public class GameWorld {
 		gameObjectCollection.add(new Nut(200, 275));
 		gameObjectCollection.add(new Nut(500, 500));
 		gameObjectCollection.add(new Nut(750, 750));
-		gameObjectCollection.add(new Squirrel(50, 200));
+		gameObjectCollection.add(new PlayerSquirrel(50, 200));
 		gameObjectCollection.add(new Bird());
 		gameObjectCollection.add(new Bird());
 		gameObjectCollection.add(new Tomato());
