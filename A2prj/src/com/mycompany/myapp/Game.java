@@ -1,6 +1,12 @@
 package com.mycompany.myapp;
+import com.codename1.ui.Button;
+import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
+import com.codename1.ui.Display;
 import com.codename1.ui.Form;
 import com.codename1.ui.events.ActionListener;
+import com.codename1.ui.layouts.BorderLayout;
+import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.Label;
 import com.codename1.ui.TextField;
 import com.codename1.ui.events.ActionEvent;
@@ -21,6 +27,47 @@ public class Game extends Form{
 		gw.addObserver(mv); // register map observer
 		gw.addObserver(sv); // register score observer
 		
+		this.setTitle("Bad-Squirrel");
+		this.setLayout(new BorderLayout());
+		
+		Label northLabel = new Label("North label");
+		this.add(BorderLayout.NORTH, northLabel);
+		
+		Label southLabel = new Label("South label");
+		Label southLabel2 = new Label("South label2");
+		Container southContainer = new Container(new BoxLayout(BoxLayout.X_AXIS));
+		this.add(BorderLayout.SOUTH, southContainer);
+		southContainer.add(southLabel);
+		southContainer.add(southLabel2);
+		
+		
+		Label westLabel = new Label("West label");
+		Label westLabel2 = new Label("West label2");
+		Container westContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+		this.add(BorderLayout.WEST, westContainer);
+		westContainer.add(westLabel);
+		westContainer.add(westLabel2);
+		
+		Label eastLabel = new Label("East label");
+		Label eastLabel2 = new Label("East label2");
+		Container eastContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+		this.add(BorderLayout.EAST, eastContainer);
+		eastContainer.add(eastLabel);
+		eastContainer.add(eastLabel2);
+		
+		
+		Button button = new Button("Center Button");
+		this.add(BorderLayout.CENTER, button);
+		
+		/* quit app code
+		boolean quit = Dialog.show("Confirm quit",  "sure?", "ok",  "cancel");
+		
+		if(quit) {
+			Display.getInstance().exitApplication();
+		}*/
+		
+		
+		this.show();
 		// code here to create Command objects for each command,
 		// add commands to side menu and title bar area, bind commands to keys, create
 		// control containers for the buttons, add buttons to the control containers,
@@ -28,7 +75,7 @@ public class Game extends Form{
 		// ScoreView to the form
 		
 		gw.init(); //initialize gameworld
-		play();
+		
 	}
 	
 	private void play()
