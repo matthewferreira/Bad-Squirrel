@@ -27,35 +27,48 @@ public class Game extends Form{
 		gw.addObserver(mv); // register map observer
 		gw.addObserver(sv); // register score observer
 		
-		this.setTitle("Bad-Squirrel");
-		this.setLayout(new BorderLayout());
+		this.setTitle("Bad-Squirrel"); //set title of GUI window
+		this.setLayout(new BorderLayout()); //set layout of GUI container
 		
+		//north side container 
 		Label northLabel = new Label("North label");
 		this.add(BorderLayout.NORTH, northLabel);
 		
-		Label southLabel = new Label("South label");
-		Label southLabel2 = new Label("South label2");
+		
+		//south side container configuration
+		Button collideNPCButton = new Button("Collide with NPC");
+		Button collideNutButton = new Button("Collide with Nut");
+		Button collideTomatoButton = new Button("Collide with Tomato");
+		Button collideBirdButton = new Button("Collide with Bird");
+		Button tickButton = new Button("Tick");
 		Container southContainer = new Container(new BoxLayout(BoxLayout.X_AXIS));
 		this.add(BorderLayout.SOUTH, southContainer);
-		southContainer.add(southLabel);
-		southContainer.add(southLabel2);
+		southContainer.add(collideNPCButton);
+		southContainer.add(collideNutButton);
+		southContainer.add(collideTomatoButton);
+		southContainer.add(collideBirdButton);
+		southContainer.add(tickButton);
 		
 		
-		Label westLabel = new Label("West label");
-		Label westLabel2 = new Label("West label2");
+		//west side container configuration
+		Button accelerateButton = new Button("Accelerate");
+		Button turnLeftButton = new Button("Turn Left");
+		Button changeStratButton = new Button("Change Stategies");
 		Container westContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
 		this.add(BorderLayout.WEST, westContainer);
-		westContainer.add(westLabel);
-		westContainer.add(westLabel2);
+		westContainer.add(accelerateButton);
+		westContainer.add(turnLeftButton);
+		westContainer.add(changeStratButton);
 		
-		Label eastLabel = new Label("East label");
-		Label eastLabel2 = new Label("East label2");
+		//east side container configuration
+		Button breakButton = new Button("Break");
+		Button turnRightButton = new Button("Turn Right");
 		Container eastContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
 		this.add(BorderLayout.EAST, eastContainer);
-		eastContainer.add(eastLabel);
-		eastContainer.add(eastLabel2);
+		eastContainer.add(breakButton);
+		eastContainer.add(turnRightButton);
 		
-		
+		//center side container
 		Button button = new Button("Center Button");
 		this.add(BorderLayout.CENTER, button);
 		
