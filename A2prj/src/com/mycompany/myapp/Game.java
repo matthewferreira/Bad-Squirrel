@@ -68,16 +68,17 @@ public class Game extends Form{
 		eastContainer.add(breakButton);
 		eastContainer.add(turnRightButton);
 		
-		//center side container
-		Button button = new Button("Center Button");
-		this.add(BorderLayout.CENTER, button);
+		//center container
+		Button exit = new Button("Exit Button");
+		exit.setCommand(new ExitCommand());
+		this.add(BorderLayout.CENTER, exit);
 		
-		/* quit app code
-		boolean quit = Dialog.show("Confirm quit",  "sure?", "ok",  "cancel");
 		
-		if(quit) {
-			Display.getInstance().exitApplication();
-		}*/
+		//creating Command objects for each command
+		BrakeCommand brake = new BrakeCommand(gw);
+		AccelerateCommand accelerate = new AccelerateCommand(gw);
+		TurnLeftCommand turnLeft = new TurnLeftCommand(gw);
+		TurnRightCommand turnRight = new TurnRightCommand(gw);
 		
 		
 		this.show();

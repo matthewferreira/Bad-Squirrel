@@ -14,6 +14,10 @@ public class GameObjectCollection implements ICollection{
 		gameObjectList.add(newGameObject);
 	}
 	
+	public void remove(GameObject go) {
+		gameObjectList.remove(go);
+	}
+	
 	public IIterator getIterator() {
 		return new GameObjectIterator();
 	}

@@ -22,7 +22,10 @@ public class GameWorld extends Observable{
 		gameObjectCollection.add(new Nut(200, 275));
 		gameObjectCollection.add(new Nut(500, 500));
 		gameObjectCollection.add(new Nut(750, 750));
-		gameObjectCollection.add(new PlayerSquirrel(50, 200));
+		gameObjectCollection.add(PlayerSquirrel.getPlayerSquirrel(50, 200));
+		gameObjectCollection.add(new NonPlayerSquirrel());
+		gameObjectCollection.add(new NonPlayerSquirrel());
+		gameObjectCollection.add(new NonPlayerSquirrel());
 		gameObjectCollection.add(new Bird());
 		gameObjectCollection.add(new Bird());
 		gameObjectCollection.add(new Tomato());
@@ -53,47 +56,24 @@ public class GameWorld extends Observable{
 		}
 	}
 	
-	//returns list of all GameObjects
-	public ArrayList<GameObject> getObjectList() {return gameObjectList;}
-	
-	//method returns list with all GameObjects of the specified type
-	public ArrayList<GameObject> getObjsOfType(String type, ArrayList<GameObject> go){
-		ArrayList<GameObject> allObjOfType = new ArrayList<GameObject>();
-		switch(type) {
-		case "bird":
-			for(int i = 0; i < go.size(); i++) {
-				if(go.get(i) instanceof Bird) {
-					allObjOfType.add((Bird)go.get(i));
-				}
-			}
-			break;
-		case "squirrel":
-			for(int i = 0; i < go.size(); i++) {
-				if(go.get(i) instanceof Squirrel) {
-					allObjOfType.add((Squirrel)go.get(i));
-				}
-			}
-			break;
-		case "tomato":
-			for(int i = 0; i < go.size(); i++) {
-				if(go.get(i) instanceof Tomato) {
-					allObjOfType.add((Tomato)go.get(i));
-				}
-			}
-			break;
-		case "nut":
-			for(int i = 0; i < go.size(); i++) {
-				if(go.get(i) instanceof Nut) {
-					allObjOfType.add((Nut)go.get(i));
-				}
-			}
-			break;
-			
-		default:
-			System.out.println("Invalid Input. Valid inputs are 'squirrel', 'bird', 'nut', 'tomato'");
-		}
-		return allObjOfType;
+	// accelerate the player squirrel
+	public void accelerate() {
+		PlayerSquirrel.getPlayerSquirrel().accelerate();
 	}
+	
+	// apply brakes to player squirrel
+	public void brake() {
+		PlayerSquirrel.getPlayerSquirrel().brake();
+	}
+	
+	public void turnPlayerLeft() {
+		getPlayer().turnLeft();
+	}
+	
+	public void turnPlayerRight() {
+		getPlayer().turnRight();
+	}
+	
 	//display game stats
 	public void display() {
 		System.out.println("livesRemaining=" + getLivesRemaining());
@@ -125,21 +105,13 @@ public class GameWorld extends Observable{
 			}
 		}
 	}
-	//add tomato to gameworld
+	
+	//add tomato to gameObjectCollection
 	public void addTomato() {
-		Tomato newTomato = new Tomato();
-		getObjectList().add(newTomato);
+		gameObjectCollection.add(new Tomato());
 	}
-	//collide random tomato with squirrel, add new tomato
-	public Tomato collideTomato() {
-		
-		int size = getObjsOfType("tomato", getObjectList()).size();
-		int randomInt = random.nextInt(size);
-		Tomato randomTomato = (Tomato) getObjsOfType("tomato", getObjectList()).get(randomInt);
-		randomTomato.collide();
-		addTomato();
-		return randomTomato;
-	}
+	
+	
 	public int getLivesRemaining() {return livesRemaining;}
 	
 	//decrements remaining lives, re-inits GameWorld,  ends game if none left
@@ -162,6 +134,6 @@ public class GameWorld extends Observable{
 	public int getGameClock() {return gameClock;}
 	
 	//gets player squirrel
-	public Squirrel getPlayer() {return player;}
+	public PlayerSquirrel getPlayer() {return PlayerSquirrel.getPlayerSquirrel();}
 	public static void exit() {System.exit(0);}
 }
