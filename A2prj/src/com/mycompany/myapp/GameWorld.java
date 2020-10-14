@@ -11,7 +11,6 @@ public class GameWorld extends Observable{
 	private boolean sound = false;
 	
 	
-	private Random random = new Random();
 	private ArrayList<GameObject> gameObjectList;
 	private Squirrel player;
 	
@@ -43,6 +42,8 @@ public class GameWorld extends Observable{
 			System.out.println("Ran out of energy!");
 			loseLife();
 			}
+		setChanged();
+		notifyObservers(this);
 	}
 	
 	//move all objects in GameWorld
@@ -54,24 +55,78 @@ public class GameWorld extends Observable{
 				mObj.move();
 			}
 		}
+		
+	}
+	
+	public GameObject getRandomObjOfType(String type) {
+		IIterator elements = gameObjectCollection.getIterator();
+		ArrayList<GameObject> gameObjectsOfType = new ArrayList<>();
+		Random random = new Random();
+		if(type == "bird") {
+			while(elements.hasNext()) {
+				if(elements.getNext() instanceof Bird) {
+					gameObjectsOfType.add((Bird)elements.getNext());
+				}
+			}
+		}
+		else if(type == "nut") {
+			while(elements.hasNext()) {
+				if(elements.getNext() instanceof Nut) {
+					gameObjectsOfType.add((Nut)elements.getNext());
+				}
+			}
+		}
+		else if(type == "tomato") {
+			while(elements.hasNext()) {
+				if(elements.getNext() instanceof Tomato) {
+					gameObjectsOfType.add((Tomato)elements.getNext());
+				}
+			}
+		}
+		else if(type == "nonplayersquirrel") {
+			while(elements.hasNext()) {
+				if(elements.getNext() instanceof NonPlayerSquirrel) {
+					gameObjectsOfType.add((NonPlayerSquirrel)elements.getNext());
+				}
+			}
+		}
+		int randomInt = random.nextInt(gameObjectsOfType.size());
+		return gameObjectsOfType.get(randomInt);
 	}
 	
 	// accelerate the player squirrel
 	public void accelerate() {
-		PlayerSquirrel.getPlayerSquirrel().accelerate();
+		getPlayer().accelerate();
 	}
 	
 	// apply brakes to player squirrel
 	public void brake() {
-		PlayerSquirrel.getPlayerSquirrel().brake();
+		getPlayer().brake();
 	}
 	
+	//turn player squirrel left
 	public void turnPlayerLeft() {
 		getPlayer().turnLeft();
 	}
-	
+	//turn player squirrel right
 	public void turnPlayerRight() {
 		getPlayer().turnRight();
+	}
+	
+	public void collidePlayer(GameObject go) {
+		getPlayer().collide(go);
+		if(getPlayer().getEnergyLevel() >= 10) {
+			loseLife();
+		}
+		if(go instanceof Tomato) {
+			((Tomato)go).collide();
+			addTomato();
+		}
+		else if(go instanceof NonPlayerSquirrel) {
+			((NonPlayerSquirrel) go).collide(getPlayer());
+		}
+		setChanged();
+		notifyObservers();
 	}
 	
 	//display game stats
@@ -85,30 +140,36 @@ public class GameWorld extends Observable{
 	//print game map
 	public void printMap() {
 		System.out.println("Displaying Map");
-		for(int i = 0; i < gameObjectList.size(); i++) {
-			if(gameObjectList.get(i) instanceof Nut) {
-				Nut nutObj = (Nut)gameObjectList.get(i);
+		IIterator elements = gameObjectCollection.getIterator();
+		while(elements.hasNext()) {
+			GameObject nextGameObject = elements.getNext();
+			if(nextGameObject instanceof Nut) {
+				Nut nutObj = (Nut)nextGameObject;
 				System.out.println("Nut: loc=" + nutObj.getLocation().getX() + ", " +  nutObj.getLocation().getY() + " color=" + nutObj.printColor() + " size=" + nutObj.getSize() + " seqNum=" + nutObj.getSeqNum());
 			}
-			else if(gameObjectList.get(i) instanceof Bird) {
-				Bird birdObj = (Bird)gameObjectList.get(i);
+			else if(nextGameObject instanceof Bird) {
+				Bird birdObj = (Bird)nextGameObject;
 				System.out.println("Bird: loc=" + birdObj.getLocation().getX() + ", " + birdObj.getLocation().getY() + " color=" + birdObj.printColor() + " heading=" + birdObj.getHeading() + " speed=" + birdObj.getSpeed() + " size=" + birdObj.getSize());
 				
 			}
-			else if(gameObjectList.get(i) instanceof Squirrel) {
-					Squirrel sqObj = (Squirrel)gameObjectList.get(i);
+			else if(nextGameObject instanceof Squirrel) {
+					Squirrel sqObj = (Squirrel)nextGameObject;
 					System.out.println("Squirrel: loc=" + sqObj.getLocation().getX() + ", " + sqObj.getLocation().getY() + " color=" + sqObj.printColor() + " heading=" + sqObj.getHeading() + " speed=" + sqObj.getSpeed() + " size=" + sqObj.getSize() + " maxSpeed=" + sqObj.getMaximumSpeed() + " steeringDirection=" + sqObj.getSteeringDirection() + " energyLevel=" + sqObj.getEnergyLevel() + " damageLevel=" + sqObj.getDamageLevel());
 			}
-			else if(gameObjectList.get(i) instanceof Tomato) {
-				Tomato tomObj = (Tomato)gameObjectList.get(i);
+			else if(nextGameObject instanceof Tomato) {
+				Tomato tomObj = (Tomato)nextGameObject;
 				System.out.println("Tomato: loc=" + tomObj.getLocation().getX() + ", " + tomObj.getLocation().getY() + " color=" + tomObj.printColor() + " size=" + tomObj.getSize() + " nutrition=" + tomObj.getNutrition());
 			}
 		}
 	}
 	
+
+	
 	//add tomato to gameObjectCollection
 	public void addTomato() {
 		gameObjectCollection.add(new Tomato());
+		setChanged();
+		notifyObservers();
 	}
 	
 	

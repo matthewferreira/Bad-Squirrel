@@ -41,5 +41,9 @@ public class GameObjectCollection implements ICollection{
 			return gameObjectList.get(currElementIndex);
 		}
 		
+		public GameObject get(int index) {
+			return gameObjectList.get(index);
+		}
+		
 	}
 }

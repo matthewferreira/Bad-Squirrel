@@ -16,5 +16,6 @@ public class MapView extends Container implements Observer{
 	public void update(Observable o, Object arg) {
 		// code here to call the method in GameWorld (Observable) that output the
 		// game object information to the console 
+		
 	}
 }
