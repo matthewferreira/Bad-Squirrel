@@ -38,6 +38,8 @@ public class GameWorld extends Observable{
 			System.out.println("Ran out of energy!");
 			loseLife();
 			}
+		printMap();
+		display();
 	}
 	
 	//move all objects in GameWorld

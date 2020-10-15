@@ -9,11 +9,12 @@ public class BirdCollideCommand extends Command{
 	public BirdCollideCommand(GameWorld gw) {
 		super("Collide with Bird");
 		gameWorld = gw;
-		collideWith = gameWorld.getRandomObjOfType("Bird");
+		
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent ev) {
+		collideWith = gameWorld.getRandomObjOfType("Bird");
 		System.out.println("Colliding player with Bird");
 		gameWorld.collidePlayer(collideWith);
 	}

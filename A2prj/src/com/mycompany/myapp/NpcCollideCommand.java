@@ -9,11 +9,12 @@ public class NpcCollideCommand extends Command{
 	public NpcCollideCommand(GameWorld gw) {
 		super("Collide with NPC");
 		gameWorld = gw;
-		collideWith = gameWorld.getRandomObjOfType("NPC");
+		
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent ev) {
+		collideWith = gameWorld.getRandomObjOfType("NPC");
 		System.out.println("Colliding player with NPC");
 		gameWorld.collidePlayer(collideWith);
 	}

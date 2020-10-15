@@ -6,27 +6,34 @@ import com.codename1.charts.util.ColorUtil;
 
 public abstract class Squirrel extends Movable implements ISteerable{
 	
-	private Random random = new Random();
+	
 	private int steeringDirection = 0;
 	private int energyLevel = 100;
 	private int energyConsumptionRate = 5;
 	private int damageLevel = 0;
 	private int lastNutReached = 1;
 	private int maximumSpeed = 40;
-	private static int maxDamage = 10;
+	private int maxDamage = 10;
+	private int armor = 10;
 	
 	// basic squirrel constructor for npc squirrels
 	public Squirrel() {
+		
 		super(40, ColorUtil.GRAY);
+		Random random = new Random();
 		super.setSpeed(5 + random.nextInt(5));
 		super.setHeading(random.nextInt(359));
-		maxDamage = 25;
+		// setting NPC location a couple squirrel lengths from first nut
+		super.setLocation(50 + (2 + random.nextInt(5))*super.getSize(), 200 + (2 + random.nextInt(5))*super.getSize());
+		//adding armor to NPC squirrels
+		maxDamage = armor + maxDamage;
 	}
 	//constructor for player squirrel to specify start location
 	public Squirrel(float x, float y) {
 		super(40, ColorUtil.GRAY, x, y);
 		super.setSpeed(5);
 		super.setHeading(0);
+		armor = 0;
 	}
 	//getters and setters for squirrel vars
 	public int getSteeringDirection() { return steeringDirection; }
@@ -39,6 +46,8 @@ public abstract class Squirrel extends Movable implements ISteerable{
 	public void setMaximumSpeed(int ms) { maximumSpeed = ms; }
 	public int getLastNut() { return lastNutReached; }
 	public void setLastNut(int ls) { lastNutReached = ls; }
+	public int getArmor() { return armor; }
+	public void setArmor(int arm) { armor = arm; }
 	
 	//reduces energy level of squirrel by energyConsumptionRate
 	public void reduceEnergyLevel() { energyLevel -= energyConsumptionRate; }

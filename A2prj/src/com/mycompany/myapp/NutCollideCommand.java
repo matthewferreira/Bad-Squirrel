@@ -9,11 +9,12 @@ public class NutCollideCommand extends Command{
 	public NutCollideCommand(GameWorld gw) {
 		super("Collide with Nut");
 		gameWorld = gw;
-		collideWith = gameWorld.getRandomObjOfType("Nut");
+		
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent ev) {
+		collideWith = gameWorld.getRandomObjOfType("Nut");
 		System.out.println("Colliding player with Nut");
 		gameWorld.collidePlayer(collideWith);
 	}

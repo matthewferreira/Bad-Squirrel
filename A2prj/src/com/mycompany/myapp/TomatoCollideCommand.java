@@ -9,11 +9,12 @@ public class TomatoCollideCommand extends Command{
 	public TomatoCollideCommand(GameWorld gw) {
 		super("Collide with Tomato");
 		gameWorld = gw;
-		collideWith = gameWorld.getRandomObjOfType("Tomato");
+		
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent ev) {
+		collideWith = gameWorld.getRandomObjOfType("Tomato");
 		System.out.println("Colliding player with Tomato");
 		gameWorld.collidePlayer(collideWith);
 	}
