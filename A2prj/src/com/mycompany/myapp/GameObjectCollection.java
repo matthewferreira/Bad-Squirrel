@@ -30,8 +30,7 @@ public class GameObjectCollection implements ICollection{
 		}
 		
 		public boolean hasNext() {
-			if(gameObjectList.isEmpty()) {return false;}
-			if(currElementIndex == gameObjectList.size() -1) {return false;}
+			if(gameObjectList.isEmpty() || currElementIndex == gameObjectList.size() -1) {return false;}
 			
 			return true;
 		}

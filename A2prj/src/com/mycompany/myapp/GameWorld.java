@@ -10,10 +10,6 @@ public class GameWorld extends Observable{
 	private int livesRemaining = 3;
 	private boolean sound = false;
 	
-	
-	private ArrayList<GameObject> gameObjectList;
-	private Squirrel player;
-	
 	public void init() {
 		gameObjectCollection = new GameObjectCollection();
 		
@@ -35,23 +31,22 @@ public class GameWorld extends Observable{
 	public void tick() {
 		moveAll();
 		getPlayer().reduceEnergyLevel();
-		System.out.println("Player loc=" + player.getLocation().getX() + "," + player.getLocation().getY() + " steerDirection=" + player.getSteeringDirection() + " speed=" + player.getSpeed() + " head=" + player.getHeading() + " energyLevel=" + player.getEnergyLevel() + " lastNut=" + player.getLastNut());
+		System.out.println("Player loc=" + getPlayer().getLocation().getX() + "," + getPlayer().getLocation().getY() + " steerDirection=" + getPlayer().getSteeringDirection() + " speed=" + getPlayer().getSpeed() + " head=" + getPlayer().getHeading() + " energyLevel=" + getPlayer().getEnergyLevel() + " lastNut=" + getPlayer().getLastNut());
 		gameClock++;
 		System.out.println("gameClock increase to " + gameClock);
 		if(getPlayer().getEnergyLevel() <= 0) {
 			System.out.println("Ran out of energy!");
 			loseLife();
 			}
-		setChanged();
-		notifyObservers(this);
 	}
 	
 	//move all objects in GameWorld
 	public void moveAll() {
 		IIterator elements = gameObjectCollection.getIterator();
 		while(elements.hasNext()) {
-			if(elements.getNext() instanceof Movable) {
-				Movable mObj = (Movable)elements.getNext();
+			GameObject nextObject = elements.getNext();
+			if(nextObject instanceof Movable) {
+				Movable mObj = (Movable)nextObject;
 				mObj.move();
 			}
 		}
@@ -62,31 +57,35 @@ public class GameWorld extends Observable{
 		IIterator elements = gameObjectCollection.getIterator();
 		ArrayList<GameObject> gameObjectsOfType = new ArrayList<>();
 		Random random = new Random();
-		if(type == "bird") {
+		if(type.equals("Bird")) {
 			while(elements.hasNext()) {
-				if(elements.getNext() instanceof Bird) {
-					gameObjectsOfType.add((Bird)elements.getNext());
+				GameObject nextObject = elements.getNext();
+				if(nextObject instanceof Bird) {
+					gameObjectsOfType.add((Bird)nextObject);
 				}
 			}
 		}
-		else if(type == "nut") {
+		else if(type.equals("Nut")) {
 			while(elements.hasNext()) {
-				if(elements.getNext() instanceof Nut) {
-					gameObjectsOfType.add((Nut)elements.getNext());
+				GameObject nextObject = elements.getNext();
+				if(nextObject instanceof Nut) {
+					gameObjectsOfType.add((Nut)nextObject);
 				}
 			}
 		}
-		else if(type == "tomato") {
+		else if(type.equals("Tomato")) {
 			while(elements.hasNext()) {
-				if(elements.getNext() instanceof Tomato) {
-					gameObjectsOfType.add((Tomato)elements.getNext());
+				GameObject nextObject = elements.getNext();
+				if(nextObject instanceof Tomato) {
+					gameObjectsOfType.add((Tomato)nextObject);
 				}
 			}
 		}
-		else if(type == "nonplayersquirrel") {
+		else if(type.equals("NPC")) {
 			while(elements.hasNext()) {
-				if(elements.getNext() instanceof NonPlayerSquirrel) {
-					gameObjectsOfType.add((NonPlayerSquirrel)elements.getNext());
+				GameObject nextObject = elements.getNext();
+				if(nextObject instanceof NonPlayerSquirrel) {
+					gameObjectsOfType.add((NonPlayerSquirrel)nextObject);
 				}
 			}
 		}
@@ -115,7 +114,7 @@ public class GameWorld extends Observable{
 	
 	public void collidePlayer(GameObject go) {
 		getPlayer().collide(go);
-		if(getPlayer().getEnergyLevel() >= 10) {
+		if(getPlayer().getDamageLevel() >= 10) {
 			loseLife();
 		}
 		if(go instanceof Tomato) {
@@ -193,6 +192,10 @@ public class GameWorld extends Observable{
 		exit();
 	}
 	public int getGameClock() {return gameClock;}
+	public void toggleSound() {
+		if(sound == false) { sound = true; }
+		else { sound = false; }
+	}
 	
 	//gets player squirrel
 	public PlayerSquirrel getPlayer() {return PlayerSquirrel.getPlayerSquirrel();}

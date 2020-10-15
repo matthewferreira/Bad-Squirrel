@@ -20,6 +20,7 @@ public abstract class Squirrel extends Movable implements ISteerable{
 		super(40, ColorUtil.GRAY);
 		super.setSpeed(5 + random.nextInt(5));
 		super.setHeading(random.nextInt(359));
+		maxDamage = 25;
 	}
 	//constructor for player squirrel to specify start location
 	public Squirrel(float x, float y) {

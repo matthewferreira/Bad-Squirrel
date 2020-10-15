@@ -17,5 +17,6 @@ public class ScoreView extends Container implements Observer{
 		// code here to call the method in GameWorld (Observable) that output the
 		// game object information to the console 
 	
+	
 	}
 }
