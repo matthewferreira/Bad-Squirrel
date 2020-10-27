@@ -177,7 +177,7 @@ public class GameWorld extends Observable{
 	//decrements remaining lives, re-inits GameWorld,  ends game if none left
 	public void loseLife() {
 		livesRemaining--;
-		
+		getPlayer().reset();
 		System.out.println("You lost a life! " + getLivesRemaining() + " lives remaining.");
 		if(livesRemaining > 0) {
 			init();
@@ -195,7 +195,6 @@ public class GameWorld extends Observable{
 		exit();
 	}
 	public int getGameClock() {
-		
 		return gameClock;
 		}
 	public void toggleSound() {

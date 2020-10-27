@@ -35,16 +35,13 @@ public class ScoreView extends Container implements Observer{
 		// game object information to the console 
 		GameWorld x = (GameWorld)o;
 		int[] stats = x.display();
-		int lr = stats[0];
-		int gc = stats[1];
-		int lnr = stats[2];
-		int el = stats[3];
-		int dl = stats[4];
-		livesRemainingLabel.setText("Lives Remaining: "+ lr);
-		gameClockLabel.setText("Game clock: " + gc);
-		lastNutLabel.setText("Last Nut: " + lnr);
-		energyLabel.setText("Energy: " + el);
-		damageLabel.setText("Damage Level: " + dl);
+		System.out.println("DISPLAY STATS");
+		livesRemainingLabel.setText("Lives Remaining: " + stats[0]);		
+		gameClockLabel.setText("Game clock: " + stats[1]);
+		lastNutLabel.setText("Last Nut: " + stats[2]);
+		energyLabel.setText("Energy: " + stats[3]);
+		damageLabel.setText("Damage Level: " + stats[4]);
+		this.revalidate();
 		
 	}
 }

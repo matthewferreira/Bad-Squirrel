@@ -19,5 +19,9 @@ public class PlayerSquirrel extends Squirrel{
 		return playerSquirrel;
 	}
 	
+	public void reset() {
+		playerSquirrel = null;
+	}
+	
 
 }
