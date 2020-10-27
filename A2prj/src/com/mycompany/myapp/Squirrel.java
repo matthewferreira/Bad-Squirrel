@@ -69,9 +69,9 @@ public abstract class Squirrel extends Movable implements ISteerable{
 			int newY = (int) (super.getLocation().getY() + deltaY);
 			
 			//keeping squirrel within 0 and 1000 boundaries
-			if(newX > 1000) { newX = 1000; }
+			if(newX > GameWorld.getSize()[0]) { newX = 1000; }
 			else if(newX < 0) { newX = 0; }
-			if(newY > 1000) { newY = 1000; }
+			if(newY > GameWorld.getSize()[1]) { newY = 1000; }
 			else if(newY < 0) { newY = 0; }
 			
 			super.setLocation(newX, newY);
@@ -160,14 +160,4 @@ public abstract class Squirrel extends Movable implements ISteerable{
 	public String toString() {
 		return "Squirrel: loc=" + this.getLocation().getX() + ", " + this.getLocation().getY() + " color=" + this.printColor() + " heading=" + this.getHeading() + " speed=" + this.getSpeed() + " size=" + this.getSize() + " maxSpeed=" + this.getMaximumSpeed() + " steeringDirection=" + this.getSteeringDirection() + " energyLevel=" + this.getEnergyLevel() + " damageLevel=" + this.getDamageLevel();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

@@ -3,6 +3,6 @@ package com.mycompany.myapp;
 public interface IStrategy {
 
 	
-	void setStrategy();
+	void setStrategy(String strat);
 	void invokeStrategy();
 }

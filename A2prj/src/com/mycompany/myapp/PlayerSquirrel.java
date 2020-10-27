@@ -19,7 +19,7 @@ public class PlayerSquirrel extends Squirrel{
 		return playerSquirrel;
 	}
 	
-	public void reset() {
+	public static void reset() {
 		playerSquirrel = null;
 	}
 	

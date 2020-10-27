@@ -28,7 +28,8 @@ public class Bird extends Movable{
 		int newX = (int) (super.getLocation().getX() + deltaX);
 		int newY = (int) (super.getLocation().getY() + deltaY);
 		
-		if(newX >= 1000) {
+		// GameWorld.getSize()[0] is the width of the game world
+		if(newX >= GameWorld.getSize()[0]) {
 			super.setHeading(random.nextInt(359));
 			heading = super.getHeading();
 			deltaX = (int) (Math.cos(Math.toRadians(90 - heading))*speed);
@@ -40,8 +41,8 @@ public class Bird extends Movable{
 			deltaX = (int) (Math.cos(Math.toRadians(90 - heading + 45))*speed);
 			newX = (int) (super.getLocation().getX() + deltaX);
 		}
-		
-		if(newY >= 1000) {
+		//GameWorld.getSize()[1] is the height of the game world
+		if(newY >= GameWorld.getSize()[1]) {
 			super.setHeading(random.nextInt(359));
 			heading = super.getHeading();
 			deltaY = (int) (Math.sin(Math.toRadians(90 - heading))*speed);

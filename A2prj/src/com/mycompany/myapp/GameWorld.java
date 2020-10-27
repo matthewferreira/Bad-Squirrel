@@ -9,6 +9,8 @@ public class GameWorld extends Observable{
 	private GameObjectCollection gameObjectCollection;
 	private int livesRemaining = 3;
 	private boolean sound = false;
+	private static int width;
+	private static int height;
 	
 	public void init() {
 		gameObjectCollection = new GameObjectCollection();
@@ -27,6 +29,20 @@ public class GameWorld extends Observable{
 		gameObjectCollection.add(new Tomato());
 	}
 	
+	public void setSize(int w, int h) {
+		width = w;
+		height = h;
+	}
+	public static int[] getSize() {
+		int[] size = new int[2];
+		size[0] = width;
+		size[1] = height;
+		System.out.println("WIdth: " + size[0]);
+		System.out.println("Height: " + size[1]);
+		return size;
+	}
+	
+	
 	//move all objects, reduce squirrel energy, increase gameclock, check if squirrel out of energy (if so, loseLife())
 	public void tick() {
 		moveAll();
@@ -38,6 +54,8 @@ public class GameWorld extends Observable{
 			System.out.println("Ran out of energy!");
 			loseLife();
 			}
+		setChanged();
+		notifyObservers();
 	}
 	
 	//move all objects in GameWorld
@@ -53,6 +71,44 @@ public class GameWorld extends Observable{
 		setChanged();
 		notifyObservers();
 		
+	}
+	
+	public ArrayList<GameObject> getObjsOfType(String type){
+		IIterator elements = gameObjectCollection.getIterator();
+		ArrayList<GameObject> gameObjectsOfType = new ArrayList<>();
+		if(type.equals("Bird")) {
+			while(elements.hasNext()) {
+				GameObject nextObject = elements.getNext();
+				if(nextObject instanceof Bird) {
+					gameObjectsOfType.add((Bird)nextObject);
+				}
+			}
+		}
+		else if(type.equals("Nut")) {
+			while(elements.hasNext()) {
+				GameObject nextObject = elements.getNext();
+				if(nextObject instanceof Nut) {
+					gameObjectsOfType.add((Nut)nextObject);
+				}
+			}
+		}
+		else if(type.equals("Tomato")) {
+			while(elements.hasNext()) {
+				GameObject nextObject = elements.getNext();
+				if(nextObject instanceof Tomato) {
+					gameObjectsOfType.add((Tomato)nextObject);
+				}
+			}
+		}
+		else if(type.equals("NPC")) {
+			while(elements.hasNext()) {
+				GameObject nextObject = elements.getNext();
+				if(nextObject instanceof NonPlayerSquirrel) {
+					gameObjectsOfType.add((NonPlayerSquirrel)nextObject);
+				}
+			}
+		}
+		return gameObjectsOfType;
 	}
 	
 	// returns random object of certain type. needed for fake collisions for now
@@ -141,12 +197,19 @@ public class GameWorld extends Observable{
 	
 	//display game stats
 	public int[] display() {
-		int[] stats = new int[5];
+		int[] stats = new int[6];
+		int soundOn = 0;
+		if(sound) {
+			soundOn = 1;
+		}
+		else { soundOn = 0; }
+		
 		stats[0] = getLivesRemaining();
 		stats[1] = getGameClock();
 		stats[2] = getPlayer().getLastNut();
 		stats[3] = getPlayer().getEnergyLevel();
 		stats[4] = getPlayer().getDamageLevel();
+		stats[5] = soundOn;
 		return stats;
 		
 	}
@@ -160,15 +223,12 @@ public class GameWorld extends Observable{
 		}
 	}
 	
-
-	
 	//add tomato to gameObjectCollection
 	public void addTomato() {
 		gameObjectCollection.add(new Tomato());
 		setChanged();
 		notifyObservers();
 	}
-	
 	
 	public int getLivesRemaining() {
 		return livesRemaining;

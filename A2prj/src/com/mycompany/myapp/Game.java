@@ -1,4 +1,5 @@
 package com.mycompany.myapp;
+import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
@@ -7,10 +8,10 @@ import com.codename1.ui.Form;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.plaf.Border;
 import com.codename1.ui.Label;
-import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
-import com.codename1.ui.events.ActionEvent;
+
 
 public class Game extends Form{
 
@@ -24,6 +25,7 @@ public class Game extends Form{
 		gw.init();			// init game world
 		mv = new MapView(); // create an Observer for the map
 		sv = new ScoreView(); // create an Observer for the game/player-squirrel
+		gw.setSize(mv.getWidth(), mv.getHeight());
 		
 		gw.addObserver(mv); // register map observer
 		gw.addObserver(sv); // register score observer
@@ -72,31 +74,65 @@ public class Game extends Form{
 		addKeyListener('g', birdCollide);
 		addKeyListener('e', tomatoCollide);
 		
-		//north side container 
-		Container northContainer = new Container(new BoxLayout(BoxLayout.X_AXIS));
+		//north side container config. adds ScoreView to north container
+		Container northContainer = new Container(BoxLayout.xCenter());
 		this.add(BorderLayout.NORTH, northContainer);
 		northContainer.add(sv);
 		
+		// center container config
+		Container middleContainer = new Container();
+		this.add(BorderLayout.CENTER, middleContainer);
+		
+		mv.setHeight(1000);
+		mv.setWidth(1000);
+		mv.getUnselectedStyle().setBorder(Border.createLineBorder(4, 0xFF0000));
+		middleContainer.add(mv);
+		
 				
-				
-		//south side container configuration, creating buttons and adding respective commands
+		//south side container configuration, creating buttons and adding respective commands and styles
 		Button collideNPCButton = new Button("Collide with NPC");
+		collideNPCButton.getUnselectedStyle().setBgColor(0x556B2F);
+		collideNPCButton.getUnselectedStyle().setFgColor(0x81613C);
+		collideNPCButton.getUnselectedStyle().setBgTransparency(128);
+		collideNPCButton.getUnselectedStyle().setPadding(5, 5, 5, 5);
+		collideNPCButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
 		collideNPCButton.setCommand(npcCollide);
 		
 		Button collideNutButton = new Button("Collide with Nut");
+		collideNutButton.getUnselectedStyle().setBgColor(0x556B2F);
+		collideNutButton.getUnselectedStyle().setFgColor(0x81613C);
+		collideNutButton.getUnselectedStyle().setBgTransparency(128);
+		collideNutButton.getUnselectedStyle().setPadding(5, 5, 5, 5);
+		collideNutButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
 		collideNutButton.setCommand(nutCollide);
 		
 		Button collideTomatoButton = new Button("Collide with Tomato");
+		collideTomatoButton.getUnselectedStyle().setBgColor(0x556B2F);
+		collideTomatoButton.getUnselectedStyle().setFgColor(0x81613C);
+		collideTomatoButton.getUnselectedStyle().setBgTransparency(128);
+		collideTomatoButton.getUnselectedStyle().setPadding(5, 5, 5, 5);
+		collideTomatoButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
 		collideTomatoButton.setCommand(tomatoCollide);
 		
 		Button collideBirdButton = new Button("Collide with Bird");
+		collideBirdButton.getUnselectedStyle().setBgColor(0x556B2F);
+		collideBirdButton.getUnselectedStyle().setFgColor(0x81613C);
+		collideBirdButton.getUnselectedStyle().setBgTransparency(128);
+		collideBirdButton.getUnselectedStyle().setPadding(5, 5, 5, 5);
+		collideBirdButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
 		collideBirdButton.setCommand(birdCollide);
 		
 		Button tickButton = new Button("Tick");
+		tickButton.getUnselectedStyle().setBgColor(0x556B2F);
+		tickButton.getUnselectedStyle().setFgColor(0x81613C);
+		tickButton.getUnselectedStyle().setBgTransparency(128);
+		tickButton.getUnselectedStyle().setPadding(5, 5, 5, 5);
+		tickButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
 		tickButton.setCommand(tick);
 		
 		// south container configuration
-		Container southContainer = new Container(new BoxLayout(BoxLayout.X_AXIS));
+		Container southContainer = new Container(BoxLayout.xCenter());
+		
 		this.add(BorderLayout.SOUTH, southContainer);
 		southContainer.add(collideNPCButton);
 		southContainer.add(collideNutButton);
@@ -106,17 +142,34 @@ public class Game extends Form{
 				
 		// creating buttons and assigning respective command for west container
 		Button accelerateButton = new Button("Accelerate");
+		accelerateButton.getUnselectedStyle().setBgColor(0x556B2F);
+		accelerateButton.getUnselectedStyle().setFgColor(0x81613C);
+		accelerateButton.getUnselectedStyle().setBgTransparency(128);
+		accelerateButton.getUnselectedStyle().setPadding(5, 5, 0, 0);
+		accelerateButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
 		accelerateButton.setCommand(accelerate);
 		
+		
 		Button turnLeftButton = new Button("Turn Left");
+		turnLeftButton.getUnselectedStyle().setBgColor(0x556B2F);
+		turnLeftButton.getUnselectedStyle().setFgColor(0x81613C);
+		turnLeftButton.getUnselectedStyle().setBgTransparency(128);
+		turnLeftButton.getUnselectedStyle().setPadding(5, 5, 5, 5);
+		turnLeftButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
 		turnLeftButton.setCommand(turnLeft);
 		
+		
 		Button changeStratButton = new Button("Change Stategies");
+		changeStratButton.getUnselectedStyle().setBgColor(0x556B2F);
+		changeStratButton.getUnselectedStyle().setFgColor(0x81613C);
+		changeStratButton.getUnselectedStyle().setBgTransparency(128);
+		changeStratButton.getUnselectedStyle().setPadding(5, 5, 5, 5);
+		changeStratButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
 		//ADD COMMAND HERE
 		
 		
 		// west container configuration
-		Container westContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+		Container westContainer = new Container(BoxLayout.yCenter());
 		this.add(BorderLayout.WEST, westContainer);
 		westContainer.add(accelerateButton);
 		westContainer.add(turnLeftButton);
@@ -124,19 +177,25 @@ public class Game extends Form{
 				
 		//east side container configuration
 		Button brakeButton = new Button("Brake");
+		brakeButton.getUnselectedStyle().setBgColor(0x556B2F);
+		brakeButton.getUnselectedStyle().setFgColor(0x81613C);
+		brakeButton.getUnselectedStyle().setBgTransparency(128);
+		brakeButton.getUnselectedStyle().setPadding(5, 5, 5, 5);
+		brakeButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
 		brakeButton.setCommand(brake);
 		
 		Button turnRightButton = new Button("Turn Right");
+		turnRightButton.getUnselectedStyle().setBgColor(0x556B2F);
+		turnRightButton.getUnselectedStyle().setFgColor(0x81613C);
+		turnRightButton.getUnselectedStyle().setBgTransparency(128);
+		turnRightButton.getUnselectedStyle().setPadding(5, 5, 5, 5);
+		turnRightButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
 		turnRightButton.setCommand(turnRight);
 		
-		Container eastContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+		Container eastContainer = new Container(BoxLayout.yCenter());
 		this.add(BorderLayout.EAST, eastContainer);
 		eastContainer.add(brakeButton);
 		eastContainer.add(turnRightButton);
-				
-		
-		
-		
 		
 		
 		this.show();
