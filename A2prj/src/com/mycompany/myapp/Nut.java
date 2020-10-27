@@ -29,4 +29,9 @@ public class Nut extends Fixed{
 		return objCount;
 	}
 	
+	@Override
+	public String toString() {
+		return "Nut: loc=" + this.getLocation().getX() + ", " +  this.getLocation().getY() + " color=" + this.printColor() + " size=" + this.getSize() + " seqNum=" + this.getSeqNum();
+	}
+	
 }

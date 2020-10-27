@@ -49,4 +49,6 @@ public abstract class GameObject {
 		int blue = ColorUtil.blue(getColor());
 		return "[" + red + ", " + green + ", " + blue + "]";
 	}
+	
+	
 }

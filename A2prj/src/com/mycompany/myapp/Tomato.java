@@ -17,4 +17,9 @@ public class Tomato extends Fixed{
 		nutrition = 0;
 		super.setColor(255,204,203);
 	}
+	
+	@Override
+	public String toString() {
+		return "Tomato: loc=" + this.getLocation().getX() + ", " + this.getLocation().getY() + " color=" + this.printColor() + " size=" + this.getSize() + " nutrition=" + this.getNutrition(); 
+	}
 }

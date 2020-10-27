@@ -42,6 +42,27 @@ public class Game extends Form{
 		TomatoCollideCommand tomatoCollide = new TomatoCollideCommand(gw);
 		NpcCollideCommand npcCollide = new NpcCollideCommand(gw);
 		
+		
+		
+		//toolbar config
+		Toolbar topToolbar = new Toolbar();
+		setToolbar(topToolbar);
+		Toolbar.setOnTopSideMenu(false);
+	
+		// creating side menu commands
+		HelpCommand help = new HelpCommand();
+		ExitCommand exit = new ExitCommand();
+		SoundCommand toggleSound = new SoundCommand(gw);
+		AboutCommand about = new AboutCommand();
+						
+		//adding side menu commands to side menu
+		topToolbar.setTitle("Bad-Squirrel");
+		topToolbar.addCommandToRightBar(help);
+		topToolbar.addCommandToSideMenu(accelerate);
+		topToolbar.addCommandToSideMenu(about);
+		topToolbar.addCommandToSideMenu(toggleSound);
+		topToolbar.addCommandToSideMenu(exit);
+		
 		//creating keybinds for each command
 		addKeyListener('b', brake);
 		addKeyListener('a', accelerate);
@@ -52,8 +73,10 @@ public class Game extends Form{
 		addKeyListener('e', tomatoCollide);
 		
 		//north side container 
-		Label northLabel = new Label("North label");
-		this.add(BorderLayout.NORTH, northLabel);
+		Container northContainer = new Container(new BoxLayout(BoxLayout.X_AXIS));
+		this.add(BorderLayout.NORTH, northContainer);
+		northContainer.add(sv);
+		
 				
 				
 		//south side container configuration, creating buttons and adding respective commands
@@ -112,23 +135,7 @@ public class Game extends Form{
 		eastContainer.add(turnRightButton);
 				
 		
-		//toolbar config
-		Toolbar topToolbar = new Toolbar();
-		setToolbar(topToolbar);
-		Toolbar.setOnTopSideMenu(false);
 		
-		// creating side menu commands
-		HelpCommand help = new HelpCommand();
-		ExitCommand exit = new ExitCommand();
-		SoundCommand toggleSound = new SoundCommand(gw);
-		AboutCommand about = new AboutCommand();
-		
-		//adding side menu commands to side menu
-		topToolbar.addCommandToRightBar(help);
-		topToolbar.addCommandToSideMenu(accelerate);
-		topToolbar.addCommandToSideMenu(about);
-		topToolbar.addCommandToSideMenu(toggleSound);
-		topToolbar.addCommandToSideMenu(exit);
 		
 		
 		

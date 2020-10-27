@@ -156,4 +156,18 @@ public abstract class Squirrel extends Movable implements ISteerable{
 		setColor(newRed, newGreen, newBlue);
 	}
 	
+	@Override
+	public String toString() {
+		return "Squirrel: loc=" + this.getLocation().getX() + ", " + this.getLocation().getY() + " color=" + this.printColor() + " heading=" + this.getHeading() + " speed=" + this.getSpeed() + " size=" + this.getSize() + " maxSpeed=" + this.getMaximumSpeed() + " steeringDirection=" + this.getSteeringDirection() + " energyLevel=" + this.getEnergyLevel() + " damageLevel=" + this.getDamageLevel();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

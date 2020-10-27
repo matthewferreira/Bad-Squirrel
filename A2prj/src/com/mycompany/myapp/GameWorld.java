@@ -38,8 +38,6 @@ public class GameWorld extends Observable{
 			System.out.println("Ran out of energy!");
 			loseLife();
 			}
-		printMap();
-		display();
 	}
 	
 	//move all objects in GameWorld
@@ -52,9 +50,12 @@ public class GameWorld extends Observable{
 				mObj.move();
 			}
 		}
+		setChanged();
+		notifyObservers();
 		
 	}
 	
+	// returns random object of certain type. needed for fake collisions for now
 	public GameObject getRandomObjOfType(String type) {
 		IIterator elements = gameObjectCollection.getIterator();
 		ArrayList<GameObject> gameObjectsOfType = new ArrayList<>();
@@ -98,20 +99,28 @@ public class GameWorld extends Observable{
 	// accelerate the player squirrel
 	public void accelerate() {
 		getPlayer().accelerate();
+		setChanged();
+		notifyObservers();
 	}
 	
 	// apply brakes to player squirrel
 	public void brake() {
 		getPlayer().brake();
+		setChanged();
+		notifyObservers();
 	}
 	
 	//turn player squirrel left
 	public void turnPlayerLeft() {
 		getPlayer().turnLeft();
+		setChanged();
+		notifyObservers();
 	}
 	//turn player squirrel right
 	public void turnPlayerRight() {
 		getPlayer().turnRight();
+		setChanged();
+		notifyObservers();
 	}
 	
 	public void collidePlayer(GameObject go) {
@@ -131,36 +140,23 @@ public class GameWorld extends Observable{
 	}
 	
 	//display game stats
-	public void display() {
-		System.out.println("livesRemaining=" + getLivesRemaining());
-		System.out.println("gameClock=" + getGameClock());
-		System.out.println("lastNutReached=" + getPlayer().getLastNut());
-		System.out.println("energyLevel=" + getPlayer().getEnergyLevel());
-		System.out.println("damageLevel=" + getPlayer().getDamageLevel());
+	public int[] display() {
+		int[] stats = new int[5];
+		stats[0] = getLivesRemaining();
+		stats[1] = getGameClock();
+		stats[2] = getPlayer().getLastNut();
+		stats[3] = getPlayer().getEnergyLevel();
+		stats[4] = getPlayer().getDamageLevel();
+		return stats;
+		
 	}
 	//print game map
 	public void printMap() {
 		System.out.println("Displaying Map");
 		IIterator elements = gameObjectCollection.getIterator();
 		while(elements.hasNext()) {
-			GameObject nextGameObject = elements.getNext();
-			if(nextGameObject instanceof Nut) {
-				Nut nutObj = (Nut)nextGameObject;
-				System.out.println("Nut: loc=" + nutObj.getLocation().getX() + ", " +  nutObj.getLocation().getY() + " color=" + nutObj.printColor() + " size=" + nutObj.getSize() + " seqNum=" + nutObj.getSeqNum());
-			}
-			else if(nextGameObject instanceof Bird) {
-				Bird birdObj = (Bird)nextGameObject;
-				System.out.println("Bird: loc=" + birdObj.getLocation().getX() + ", " + birdObj.getLocation().getY() + " color=" + birdObj.printColor() + " heading=" + birdObj.getHeading() + " speed=" + birdObj.getSpeed() + " size=" + birdObj.getSize());
-				
-			}
-			else if(nextGameObject instanceof Squirrel) {
-					Squirrel sqObj = (Squirrel)nextGameObject;
-					System.out.println("Squirrel: loc=" + sqObj.getLocation().getX() + ", " + sqObj.getLocation().getY() + " color=" + sqObj.printColor() + " heading=" + sqObj.getHeading() + " speed=" + sqObj.getSpeed() + " size=" + sqObj.getSize() + " maxSpeed=" + sqObj.getMaximumSpeed() + " steeringDirection=" + sqObj.getSteeringDirection() + " energyLevel=" + sqObj.getEnergyLevel() + " damageLevel=" + sqObj.getDamageLevel());
-			}
-			else if(nextGameObject instanceof Tomato) {
-				Tomato tomObj = (Tomato)nextGameObject;
-				System.out.println("Tomato: loc=" + tomObj.getLocation().getX() + ", " + tomObj.getLocation().getY() + " color=" + tomObj.printColor() + " size=" + tomObj.getSize() + " nutrition=" + tomObj.getNutrition());
-			}
+			GameObject go = elements.getNext();
+			 System.out.println(go.toString());
 		}
 	}
 	
@@ -174,11 +170,14 @@ public class GameWorld extends Observable{
 	}
 	
 	
-	public int getLivesRemaining() {return livesRemaining;}
+	public int getLivesRemaining() {
+		return livesRemaining;
+	}
 	
 	//decrements remaining lives, re-inits GameWorld,  ends game if none left
 	public void loseLife() {
 		livesRemaining--;
+		
 		System.out.println("You lost a life! " + getLivesRemaining() + " lives remaining.");
 		if(livesRemaining > 0) {
 			init();
@@ -187,16 +186,23 @@ public class GameWorld extends Observable{
 			System.out.println("Game Over, you failed!");
 			exit();
 		}
+		setChanged();
+		notifyObservers();
 	}
 	//ends game with victory
 	public static void youWin() {
 		System.out.println("Game over, you win! Total Time: " + gameClock);
 		exit();
 	}
-	public int getGameClock() {return gameClock;}
+	public int getGameClock() {
+		
+		return gameClock;
+		}
 	public void toggleSound() {
 		if(sound == false) { sound = true; }
 		else { sound = false; }
+		setChanged();
+		notifyObservers();
 	}
 	
 	//gets player squirrel

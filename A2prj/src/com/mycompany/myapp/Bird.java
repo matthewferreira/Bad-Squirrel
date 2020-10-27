@@ -55,4 +55,10 @@ public class Bird extends Movable{
 		}
 		super.setLocation(newX, newY);
 	}
+	
+	@Override
+	public String toString() {
+		return "Bird: loc=" + this.getLocation().getX() + ", " + this.getLocation().getY() + " color=" + this.printColor() + " heading=" + this.getHeading() + " speed=" + this.getSpeed() + " size=" + this.getSize();
+	}
+	
 }
