@@ -1,8 +1,6 @@
 package com.mycompany.myapp;
 
 public interface IStrategy {
-
-	
-	void setStrategy(String strat);
-	void invokeStrategy();
+	//need to pass NPC as param since the location is needed
+	public void apply(NonPlayerSquirrel s);
 }

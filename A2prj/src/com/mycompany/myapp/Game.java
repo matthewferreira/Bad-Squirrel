@@ -1,6 +1,7 @@
 package com.mycompany.myapp;
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Button;
+import com.codename1.ui.CheckBox;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
@@ -44,25 +45,26 @@ public class Game extends Form{
 		TomatoCollideCommand tomatoCollide = new TomatoCollideCommand(gw);
 		NpcCollideCommand npcCollide = new NpcCollideCommand(gw);
 		
-		
-		
 		//toolbar config
 		Toolbar topToolbar = new Toolbar();
 		setToolbar(topToolbar);
 		Toolbar.setOnTopSideMenu(false);
+		CheckBox soundBox = new CheckBox("Sound");
 	
 		// creating side menu commands
 		HelpCommand help = new HelpCommand();
 		ExitCommand exit = new ExitCommand();
 		SoundCommand toggleSound = new SoundCommand(gw);
 		AboutCommand about = new AboutCommand();
+		
+		soundBox.setCommand(toggleSound);
 						
 		//adding side menu commands to side menu
 		topToolbar.setTitle("Bad-Squirrel");
 		topToolbar.addCommandToRightBar(help);
 		topToolbar.addCommandToSideMenu(accelerate);
 		topToolbar.addCommandToSideMenu(about);
-		topToolbar.addCommandToSideMenu(toggleSound);
+		topToolbar.addComponentToSideMenu(soundBox);
 		topToolbar.addCommandToSideMenu(exit);
 		
 		//creating keybinds for each command
@@ -82,10 +84,6 @@ public class Game extends Form{
 		// center container config
 		Container middleContainer = new Container();
 		this.add(BorderLayout.CENTER, middleContainer);
-		
-		mv.setHeight(1000);
-		mv.setWidth(1000);
-		mv.getUnselectedStyle().setBorder(Border.createLineBorder(4, 0xFF0000));
 		middleContainer.add(mv);
 		
 				
@@ -149,7 +147,6 @@ public class Game extends Form{
 		accelerateButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
 		accelerateButton.setCommand(accelerate);
 		
-		
 		Button turnLeftButton = new Button("Turn Left");
 		turnLeftButton.getUnselectedStyle().setBgColor(0x556B2F);
 		turnLeftButton.getUnselectedStyle().setFgColor(0x81613C);
@@ -158,7 +155,6 @@ public class Game extends Form{
 		turnLeftButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
 		turnLeftButton.setCommand(turnLeft);
 		
-		
 		Button changeStratButton = new Button("Change Stategies");
 		changeStratButton.getUnselectedStyle().setBgColor(0x556B2F);
 		changeStratButton.getUnselectedStyle().setFgColor(0x81613C);
@@ -166,7 +162,8 @@ public class Game extends Form{
 		changeStratButton.getUnselectedStyle().setPadding(5, 5, 5, 5);
 		changeStratButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
 		//ADD COMMAND HERE
-		
+		ChangeStratCommand changeStrat = new ChangeStratCommand(gw);
+		changeStratButton.setCommand(changeStrat);
 		
 		// west container configuration
 		Container westContainer = new Container(BoxLayout.yCenter());
@@ -197,15 +194,6 @@ public class Game extends Form{
 		eastContainer.add(brakeButton);
 		eastContainer.add(turnRightButton);
 		
-		
 		this.show();
-		// code here to create Command objects for each command,
-		// add commands to side menu and title bar area, bind commands to keys, create
-		// control containers for the buttons, add buttons to the control containers,
-		// add commands to the buttons, and add control containers, MapView, and
-		// ScoreView to the form
-		
-		 //initialize gameworld
-		
 	}
 }

@@ -1,14 +1,20 @@
 package com.mycompany.myapp;
 
 public class PlayerSquirrel extends Squirrel{
-	//singleton pattern implementation, still need to check for boundaries when instantiating
+	//singleton pattern implementation
 	private static PlayerSquirrel playerSquirrel;
 	
 	private PlayerSquirrel(float x, float y) { super(x, y); }
 	
 	public static PlayerSquirrel getPlayerSquirrel(float x, float y) {
 		if(playerSquirrel == null) {
-			playerSquirrel = new PlayerSquirrel(x, y);
+			if (x < 0 || x > 1000){
+				System.out.println("Invalid X bound for Player");
+			}
+			else if (y < 0 || y > 1000){
+				System.out.println("Invalid y bound for Player");
+			}
+			else { playerSquirrel = new PlayerSquirrel(x, y); }
 		}
 		return playerSquirrel;
 	}
@@ -18,10 +24,8 @@ public class PlayerSquirrel extends Squirrel{
 		}
 		return playerSquirrel;
 	}
-	
+	//resets player to null
 	public static void reset() {
 		playerSquirrel = null;
 	}
-	
-
 }

@@ -17,7 +17,7 @@ public class ScoreView extends Container implements Observer{
 	public ScoreView(Observable myModel) {
 		myModel.addObserver(this);
 	}
-	
+	// adding labels to scoreview
 	public ScoreView() {
 		livesRemainingLabel = new Label("Lives Remaining: 3");
 		this.add(livesRemainingLabel);
@@ -30,14 +30,16 @@ public class ScoreView extends Container implements Observer{
 		damageLabel = new Label("Damage Level: 0");
 		this.add(damageLabel);
 		soundLabel = new Label("Sound: OFF");
+		this.add(soundLabel);
 	}
 	
+	//updating labels with appropriate data
 	public void update(Observable o, Object arg) {
 		// code here to call the method in GameWorld (Observable) that output the
 		// game object information to the console 
 		GameWorld x = (GameWorld)o;
 		int[] stats = x.display();
-		System.out.println("DISPLAY STATS");
+		
 		livesRemainingLabel.setText("Lives Remaining: " + stats[0]);		
 		gameClockLabel.setText("Game clock: " + stats[1]);
 		lastNutLabel.setText("Last Nut: " + stats[2]);
@@ -51,6 +53,5 @@ public class ScoreView extends Container implements Observer{
 		}
 		
 		this.revalidate();
-		
 	}
 }

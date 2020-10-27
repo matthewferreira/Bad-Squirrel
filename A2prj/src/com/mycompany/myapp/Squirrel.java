@@ -155,6 +155,7 @@ public abstract class Squirrel extends Movable implements ISteerable{
 		}
 		setColor(newRed, newGreen, newBlue);
 	}
+	public int getMaxDamage() {return maxDamage;}
 	
 	@Override
 	public String toString() {

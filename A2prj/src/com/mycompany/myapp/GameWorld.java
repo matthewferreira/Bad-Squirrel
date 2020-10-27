@@ -37,11 +37,8 @@ public class GameWorld extends Observable{
 		int[] size = new int[2];
 		size[0] = width;
 		size[1] = height;
-		System.out.println("WIdth: " + size[0]);
-		System.out.println("Height: " + size[1]);
 		return size;
 	}
-	
 	
 	//move all objects, reduce squirrel energy, increase gameclock, check if squirrel out of energy (if so, loseLife())
 	public void tick() {
@@ -70,9 +67,8 @@ public class GameWorld extends Observable{
 		}
 		setChanged();
 		notifyObservers();
-		
 	}
-	
+	//gets all objects of given type
 	public ArrayList<GameObject> getObjsOfType(String type){
 		IIterator elements = gameObjectCollection.getIterator();
 		ArrayList<GameObject> gameObjectsOfType = new ArrayList<>();
@@ -179,6 +175,7 @@ public class GameWorld extends Observable{
 		notifyObservers();
 	}
 	
+	//collides player with given gameobject
 	public void collidePlayer(GameObject go) {
 		getPlayer().collide(go);
 		if(getPlayer().getDamageLevel() >= 10) {
@@ -195,7 +192,7 @@ public class GameWorld extends Observable{
 		notifyObservers();
 	}
 	
-	//display game stats
+	//pass game stats to ScoreView for display
 	public int[] display() {
 		int[] stats = new int[6];
 		int soundOn = 0;
@@ -254,9 +251,16 @@ public class GameWorld extends Observable{
 		System.out.println("Game over, you win! Total Time: " + gameClock);
 		exit();
 	}
+	public static void npcWin() {
+		System.out.println("Game over, a NPC wins");
+		exit();
+	}
+	
+	//returns gameClock
 	public int getGameClock() {
 		return gameClock;
 		}
+	//toggles sound variable
 	public void toggleSound() {
 		if(sound == false) { sound = true; }
 		else { sound = false; }

@@ -11,7 +11,7 @@ public class NutCollideCommand extends Command{
 		gameWorld = gw;
 		
 	}
-	
+	// not sure how to get text input from user with a textfield, colliding with random nuts instead
 	@Override
 	public void actionPerformed(ActionEvent ev) {
 		collideWith = gameWorld.getRandomObjOfType("Nut");
