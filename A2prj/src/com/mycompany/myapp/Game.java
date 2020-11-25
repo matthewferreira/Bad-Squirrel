@@ -1,16 +1,12 @@
 package com.mycompany.myapp;
-import com.codename1.charts.util.ColorUtil;
+
 import com.codename1.ui.Button;
 import com.codename1.ui.CheckBox;
 import com.codename1.ui.Container;
-import com.codename1.ui.Dialog;
-import com.codename1.ui.Display;
 import com.codename1.ui.Form;
-import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.plaf.Border;
-import com.codename1.ui.Label;
 import com.codename1.ui.Toolbar;
 
 
@@ -26,7 +22,7 @@ public class Game extends Form{
 		gw.init();			// init game world
 		mv = new MapView(); // create an Observer for the map
 		sv = new ScoreView(); // create an Observer for the game/player-squirrel
-		gw.setSize(mv.getWidth(), mv.getHeight());
+
 		
 		gw.addObserver(mv); // register map observer
 		gw.addObserver(sv); // register score observer
@@ -56,7 +52,6 @@ public class Game extends Form{
 		ExitCommand exit = new ExitCommand();
 		SoundCommand toggleSound = new SoundCommand(gw);
 		AboutCommand about = new AboutCommand();
-		
 		soundBox.setCommand(toggleSound);
 						
 		//adding side menu commands to side menu
@@ -82,10 +77,8 @@ public class Game extends Form{
 		northContainer.add(sv);
 		
 		// center container config
-		Container middleContainer = new Container();
-		this.add(BorderLayout.CENTER, middleContainer);
-		middleContainer.add(mv);
-		
+		// adds MapView to center 
+		this.add(BorderLayout.CENTER, mv);
 				
 		//south side container configuration, creating buttons and adding respective commands and styles
 		Button collideNPCButton = new Button("Collide with NPC");

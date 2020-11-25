@@ -69,9 +69,9 @@ public abstract class Squirrel extends Movable implements ISteerable{
 			int newY = (int) (super.getLocation().getY() + deltaY);
 			
 			//keeping squirrel within 0 and 1000 boundaries
-			if(newX > GameWorld.getSize()[0]) { newX = 1000; }
+			if(newX > GameWorld.getSize()[0]) { newX = GameWorld.getSize()[0]; }
 			else if(newX < 0) { newX = 0; }
-			if(newY > GameWorld.getSize()[1]) { newY = 1000; }
+			if(newY > GameWorld.getSize()[1]) { newY = GameWorld.getSize()[1]; }
 			else if(newY < 0) { newY = 0; }
 			
 			super.setLocation(newX, newY);

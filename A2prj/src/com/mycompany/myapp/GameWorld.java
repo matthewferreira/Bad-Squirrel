@@ -33,6 +33,7 @@ public class GameWorld extends Observable{
 		width = w;
 		height = h;
 	}
+	
 	public static int[] getSize() {
 		int[] size = new int[2];
 		size[0] = width;
@@ -68,6 +69,7 @@ public class GameWorld extends Observable{
 		setChanged();
 		notifyObservers();
 	}
+	
 	//gets all objects of given type
 	public ArrayList<GameObject> getObjsOfType(String type){
 		IIterator elements = gameObjectCollection.getIterator();
@@ -208,8 +210,8 @@ public class GameWorld extends Observable{
 		stats[4] = getPlayer().getDamageLevel();
 		stats[5] = soundOn;
 		return stats;
-		
 	}
+	
 	//print game map
 	public void printMap() {
 		System.out.println("Displaying Map");
@@ -234,7 +236,8 @@ public class GameWorld extends Observable{
 	//decrements remaining lives, re-inits GameWorld,  ends game if none left
 	public void loseLife() {
 		livesRemaining--;
-		getPlayer().reset();
+	
+		PlayerSquirrel.reset();
 		System.out.println("You lost a life! " + getLivesRemaining() + " lives remaining.");
 		if(livesRemaining > 0) {
 			init();
@@ -266,6 +269,10 @@ public class GameWorld extends Observable{
 		else { sound = false; }
 		setChanged();
 		notifyObservers();
+	}
+
+	public IIterator getIterator() {
+		return gameObjectCollection.getIterator();
 	}
 	
 	//gets player squirrel
