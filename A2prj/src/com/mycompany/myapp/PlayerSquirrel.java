@@ -1,5 +1,8 @@
 package com.mycompany.myapp;
 
+import com.codename1.charts.models.Point;
+import com.codename1.ui.Graphics;
+
 public class PlayerSquirrel extends Squirrel{
 	//singleton pattern implementation
 	private static PlayerSquirrel playerSquirrel;
@@ -27,5 +30,10 @@ public class PlayerSquirrel extends Squirrel{
 	//resets player to null
 	public static void reset() {
 		playerSquirrel = null;
+	}
+	
+	@Override
+	public void draw(Graphics g, Point p) {
+		
 	}
 }

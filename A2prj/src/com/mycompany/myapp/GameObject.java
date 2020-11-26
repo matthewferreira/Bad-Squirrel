@@ -3,7 +3,7 @@ import java.util.Random;
 import com.codename1.charts.models.Point;
 import com.codename1.charts.util.ColorUtil;
 
-public abstract class GameObject {
+public abstract class GameObject implements IDrawable{
 	
 	private int size;
 	private Point location = new Point();
@@ -13,8 +13,8 @@ public abstract class GameObject {
 	//constructor for objects with random location
 	public GameObject(int sz, int clr) {
 		size = sz;
-		location.setX(rando.nextFloat()*1000);
-		location.setY(rando.nextFloat()*1000);
+		location.setX(rando.nextFloat()*GameWorld.getSize()[0]);
+		location.setY(rando.nextFloat()*GameWorld.getSize()[1]);
 		color = clr;
 	}
 	//constructor for objects with specific location
@@ -31,10 +31,10 @@ public abstract class GameObject {
 	
 	//set location of object within 0 and 1000 x and y
 	public void setLocation(float x, float y) {
-		if(x >=0 && x<=1000) {
+		if(x >=0 && x<= GameWorld.getSize()[0]) {
 			location.setX(x);
 		}
-		if(y >= 0 && y<= 1000) {
+		if(y >= 0 && y<= GameWorld.getSize()[1]) {
 			location.setY(y);	
 		}
 	}

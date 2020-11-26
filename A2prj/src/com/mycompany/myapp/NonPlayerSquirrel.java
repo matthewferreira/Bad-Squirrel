@@ -2,6 +2,9 @@ package com.mycompany.myapp;
 
 import java.util.Random;
 
+import com.codename1.charts.models.Point;
+import com.codename1.ui.Graphics;
+
 public class NonPlayerSquirrel extends Squirrel{
 	
 	private IStrategy curStrategy;
@@ -68,6 +71,11 @@ public class NonPlayerSquirrel extends Squirrel{
 				" heading=" + this.getHeading() + " speed=" + this.getSpeed() + " size=" + this.getSize() + " maxSpeed=" + this.getMaximumSpeed() + 
 				" steeringDirection=" + this.getSteeringDirection() + " energyLevel=" + this.getEnergyLevel() + " damageLevel=" + this.getDamageLevel() + 
 				" LastNut=" + this.getLastNut() + " Strategy=" + this.curStrategy;
+	}
+	
+	@Override
+	public void draw(Graphics g, Point p) {
+		
 	}
 	
 }

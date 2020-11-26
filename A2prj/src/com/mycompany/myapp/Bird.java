@@ -2,7 +2,9 @@ package com.mycompany.myapp;
 
 import java.util.Random;
 
+import com.codename1.charts.models.Point;
 import com.codename1.charts.util.ColorUtil;
+import com.codename1.ui.Graphics;
 
 public class Bird extends Movable{
 	
@@ -60,6 +62,11 @@ public class Bird extends Movable{
 	@Override
 	public String toString() {
 		return "Bird: loc=" + this.getLocation().getX() + ", " + this.getLocation().getY() + " color=" + this.printColor() + " heading=" + this.getHeading() + " speed=" + this.getSpeed() + " size=" + this.getSize();
+	}
+	
+	@Override
+	public void draw(Graphics g, Point p) {
+		
 	}
 	
 }

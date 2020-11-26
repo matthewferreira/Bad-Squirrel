@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
 
+import com.codename1.ui.Graphics;
+
 public class GameWorld extends Observable{
 	private static int gameClock = 0;
 	private GameObjectCollection gameObjectCollection;
@@ -27,6 +29,7 @@ public class GameWorld extends Observable{
 		gameObjectCollection.add(new Bird());
 		gameObjectCollection.add(new Tomato());
 		gameObjectCollection.add(new Tomato());
+		
 	}
 	
 	public void setSize(int w, int h) {
@@ -271,8 +274,28 @@ public class GameWorld extends Observable{
 		notifyObservers();
 	}
 
-	public IIterator getIterator() {
-		return gameObjectCollection.getIterator();
+	public IIterator getObjectList() {
+		/*
+		System.out.println("HELLO 1 ");
+		IIterator elements = gameObjectCollection.getIterator();
+		ArrayList<GameObject> list = new ArrayList<GameObject>();
+		
+		while(elements.hasNext()) {
+			list.add(elements.getNext());
+			System.out.println("HELLO 2");
+		}*/
+		IIterator elements = gameObjectCollection.getIterator();
+		
+		return elements;
+	}
+	
+	public void drawObjects(Graphics g) {
+		System.out.println("HELLO 2");
+		IIterator elements = gameObjectCollection.getIterator();
+		while(elements.hasNext()) {
+			GameObject go = elements.getNext();
+			go.draw(g, go.getLocation());
+		}
 	}
 	
 	//gets player squirrel

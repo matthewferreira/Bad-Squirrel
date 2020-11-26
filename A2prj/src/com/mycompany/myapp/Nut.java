@@ -1,6 +1,8 @@
 package com.mycompany.myapp;
 
+import com.codename1.charts.models.Point;
 import com.codename1.charts.util.ColorUtil;
+import com.codename1.ui.Graphics;
 
 public class Nut extends Fixed{
 	private static int objCount = 0;
@@ -32,6 +34,11 @@ public class Nut extends Fixed{
 	@Override
 	public String toString() {
 		return "Nut: loc=" + this.getLocation().getX() + ", " +  this.getLocation().getY() + " color=" + this.printColor() + " size=" + this.getSize() + " seqNum=" + this.getSeqNum();
+	}
+	
+	@Override
+	public void draw(Graphics g, Point p) {
+		
 	}
 	
 }

@@ -2,7 +2,9 @@ package com.mycompany.myapp;
 
 import java.util.Random;
 
+import com.codename1.charts.models.Point;
 import com.codename1.charts.util.ColorUtil;
+import com.codename1.ui.Graphics;
 
 public class Tomato extends Fixed{
 	private static Random random = new Random();
@@ -22,4 +24,17 @@ public class Tomato extends Fixed{
 	public String toString() {
 		return "Tomato: loc=" + this.getLocation().getX() + ", " + this.getLocation().getY() + " color=" + this.printColor() + " size=" + this.getSize() + " nutrition=" + this.getNutrition(); 
 	}
+	
+	@Override
+	public void draw(Graphics g, Point pCmpRelPrnt) {
+		
+		int x = (int) pCmpRelPrnt.getX();
+		int y = (int) pCmpRelPrnt.getY();
+		int radius = nutrition/2;
+		g.setColor(this.getColor());
+		g.drawArc(x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY(), 2*radius, 2*radius, 0, 360);
+		g.fillArc(x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY(), 2*radius, 2*radius, 0, 360);
+		
+	}
+	
 }

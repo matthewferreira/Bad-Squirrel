@@ -19,10 +19,10 @@ public class Game extends Form{
 	//game constructor
 	public Game() {
 		gw = new GameWorld(); // create Observable GameWorld
-		gw.init();			// init game world
-		mv = new MapView(); // create an Observer for the map
+		
+		mv = new MapView(gw); // create an Observer for the map
 		sv = new ScoreView(); // create an Observer for the game/player-squirrel
-
+		gw.init();			// init game world
 		
 		gw.addObserver(mv); // register map observer
 		gw.addObserver(sv); // register score observer
