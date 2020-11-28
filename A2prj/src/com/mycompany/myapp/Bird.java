@@ -13,19 +13,19 @@ public class Bird extends Movable{
 	public Bird() {
 		super(10 + random.nextInt(40), ColorUtil.BLUE);
 		super.setHeading(random.nextInt(359));
-		super.setSpeed(2 + random.nextInt(8));
+		super.setSpeed(5 + random.nextInt(8));
 	}
 	
 	// custom move function for bird
 	@Override
-	public void move() {
+	public void move(int elapsedTime) {
 		
 		int heading = super.getHeading() - 5 + random.nextInt(10);
 		super.setHeading(heading);
 		
 		int speed = super.getSpeed();
-		int deltaX = (int) (Math.cos(Math.toRadians(90 - heading))*speed);
-		int deltaY = (int) (Math.sin(Math.toRadians(90 - heading))*speed);
+		int deltaX = (int) (Math.cos(Math.toRadians(90 - heading))*(super.getSpeed() + elapsedTime/5));
+		int deltaY = (int) (Math.sin(Math.toRadians(90 - heading))*(super.getSpeed() + elapsedTime/5));
 		
 		int newX = (int) (super.getLocation().getX() + deltaX);
 		int newY = (int) (super.getLocation().getY() + deltaY);
@@ -65,7 +65,13 @@ public class Bird extends Movable{
 	}
 	
 	@Override
-	public void draw(Graphics g, Point p) {
+	public void draw(Graphics g, Point pCmpRelPrnt) {
+		int x = (int) pCmpRelPrnt.getX();
+		int y = (int) pCmpRelPrnt.getY();
+		int[] xPoints = { x + (int)this.getLocation().getX() - this.getSize(), x + (int)this.getLocation().getX() + this.getSize(), x + (int)this.getLocation().getX()};
+		int[] yPoints = { y + (int)this.getLocation().getY(), y + (int)this.getLocation().getY(), y + (int)this.getLocation().getY() + 5*this.getSize()};
+		g.setColor(this.getColor());
+		g.drawPolygon(xPoints, yPoints, 3);
 		
 	}
 	

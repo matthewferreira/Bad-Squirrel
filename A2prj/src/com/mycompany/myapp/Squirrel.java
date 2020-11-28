@@ -8,8 +8,8 @@ public abstract class Squirrel extends Movable implements ISteerable{
 	
 	
 	private int steeringDirection = 0;
-	private int energyLevel = 100;
-	private int energyConsumptionRate = 5;
+	private int energyLevel = 1000;
+	private int energyConsumptionRate = 1;
 	private int damageLevel = 0;
 	private int lastNutReached = 1;
 	private int maximumSpeed = 40;
@@ -21,10 +21,10 @@ public abstract class Squirrel extends Movable implements ISteerable{
 		
 		super(40, ColorUtil.GRAY);
 		Random random = new Random();
-		super.setSpeed(5 + random.nextInt(5));
+		super.setSpeed(random.nextInt(5));
 		super.setHeading(random.nextInt(359));
 		// setting NPC location a couple squirrel lengths from first nut
-		super.setLocation(50 + (2 + random.nextInt(5))*super.getSize(), 200 + (2 + random.nextInt(5))*super.getSize());
+		super.setLocation(50 + (20 + random.nextInt(5))*super.getSize(), 200 + (20 + random.nextInt(5))*super.getSize());
 		//adding armor to NPC squirrels
 		maxDamage = armor + maxDamage;
 	}
@@ -58,12 +58,12 @@ public abstract class Squirrel extends Movable implements ISteerable{
 	
 	//method to move squirrel. keeps squirrel between 0 and 1000 on x and y coordinates
 	@Override
-	public void move() {
+	public void move(int elapsedTime) {
 		
 		if(energyLevel > 0 && damageLevel < maxDamage) {
 			int head = super.getHeading() + steeringDirection;
-			int deltaX = (int) (Math.cos(Math.toRadians(90 - head))*super.getSpeed());
-			int deltaY = (int) (Math.sin(Math.toRadians(90 - head))*super.getSpeed());
+			int deltaX = (int) (Math.cos(Math.toRadians(90 - head))*(super.getSpeed() + elapsedTime/5));
+			int deltaY = (int) (Math.sin(Math.toRadians(90 - head))*( super.getSpeed() + elapsedTime/5));
 			
 			int newX = (int) (super.getLocation().getX() + deltaX);
 			int newY = (int) (super.getLocation().getY() + deltaY);
@@ -111,7 +111,7 @@ public abstract class Squirrel extends Movable implements ISteerable{
 			damageLevel += 2;
 			maximumSpeed = (int) (maximumSpeed*(1-damageLevel*0.1));
 			if(super.getSpeed() > getMaximumSpeed()) {
-				setSpeed(maximumSpeed);
+				this.setSpeed(maximumSpeed);
 			}
 			fadeColor();
 		}
@@ -132,11 +132,11 @@ public abstract class Squirrel extends Movable implements ISteerable{
 	}
 	//increase squirrel speed by 2
 	public void accelerate() {
-		setSpeed(super.getSpeed() + 2);
+		this.setSpeed(super.getSpeed() + 5);
 	}
 	//decrease squirrel speed by 2
 	public void brake() {
-		if(super.getSpeed()-2 >= 0) { setSpeed(super.getSpeed()-2); }
+		if(super.getSpeed()-2 >= 0) { this.setSpeed(super.getSpeed()-2); }
 	}
 	//fade color of squirrel based on damage level
 	public void fadeColor() {

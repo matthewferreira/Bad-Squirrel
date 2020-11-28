@@ -11,9 +11,9 @@ public abstract class Movable extends GameObject{
 	//constructor for objects with specified locations
 	public Movable(int sz, int clr, float x, float y) {super(sz, clr, x, y);}
 	
-	public void move() {
-		int deltaX = (int) (Math.cos(Math.toRadians(90 - heading))*speed);
-		int deltaY = (int) (Math.sin(Math.toRadians(90 - heading))*speed);
+	public void move(int elapsedTime) {
+		int deltaX = (int) (Math.cos(Math.toRadians(90 - heading))*(speed+elapsedTime));
+		int deltaY = (int) (Math.sin(Math.toRadians(90 - heading))*(speed+elapsedTime));
 		int newX = (int) (super.getLocation().getX() + deltaX);
 		int newY = (int) (super.getLocation().getY() + deltaY);
 		super.setLocation(newX, newY);

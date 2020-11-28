@@ -1,6 +1,7 @@
 package com.mycompany.myapp;
 
 import com.codename1.charts.models.Point;
+import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 
 public class PlayerSquirrel extends Squirrel{
@@ -33,7 +34,12 @@ public class PlayerSquirrel extends Squirrel{
 	}
 	
 	@Override
-	public void draw(Graphics g, Point p) {
-		
+	public void draw(Graphics g, Point pCmpRelPrnt) {
+		int x = (int) pCmpRelPrnt.getX();
+		int y = (int) pCmpRelPrnt.getY();
+		g.setColor(ColorUtil.BLACK);
+		g.drawRect(x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY(), this.getSize(), this.getSize());
+		g.setColor(this.getColor());
+		g.fillRect(x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY(), this.getSize(), this.getSize());
 	}
 }

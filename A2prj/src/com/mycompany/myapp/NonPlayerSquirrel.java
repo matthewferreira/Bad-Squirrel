@@ -3,6 +3,7 @@ package com.mycompany.myapp;
 import java.util.Random;
 
 import com.codename1.charts.models.Point;
+import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 
 public class NonPlayerSquirrel extends Squirrel{
@@ -45,12 +46,12 @@ public class NonPlayerSquirrel extends Squirrel{
 	
 	//overridden move method to invoke strategy every time it moves
 	@Override
-	public void move() {
+	public void move(int elapsedTime) {
 		this.invokeStrategy();
 		if(this.getEnergyLevel() > 0 && this.getDamageLevel() < this.getMaxDamage()) {
 			int head = this.getHeading();
-			int deltaX = (int) (Math.cos(Math.toRadians(90 - head))*super.getSpeed());
-			int deltaY = (int) (Math.sin(Math.toRadians(90 - head))*super.getSpeed());
+			int deltaX = (int) (Math.cos(Math.toRadians(90 - head))*(super.getSpeed() + elapsedTime/5));
+			int deltaY = (int) (Math.sin(Math.toRadians(90 - head))*(super.getSpeed() + elapsedTime/5));
 			
 			int newX = (int) (super.getLocation().getX() + deltaX);
 			int newY = (int) (super.getLocation().getY() + deltaY);
@@ -74,7 +75,11 @@ public class NonPlayerSquirrel extends Squirrel{
 	}
 	
 	@Override
-	public void draw(Graphics g, Point p) {
+	public void draw(Graphics g, Point pCmpRelPrnt) {
+		int x = (int) pCmpRelPrnt.getX();
+		int y = (int) pCmpRelPrnt.getY();
+		g.setColor(this.getColor());
+		g.drawRect(x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY(), this.getSize(), this.getSize());
 		
 	}
 	

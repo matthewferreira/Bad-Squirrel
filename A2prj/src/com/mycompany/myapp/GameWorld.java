@@ -11,8 +11,7 @@ public class GameWorld extends Observable{
 	private GameObjectCollection gameObjectCollection;
 	private int livesRemaining = 3;
 	private boolean sound = false;
-	private static int width;
-	private static int height;
+	private static int[] size = new int[2];
 	
 	public void init() {
 		gameObjectCollection = new GameObjectCollection();
@@ -32,15 +31,12 @@ public class GameWorld extends Observable{
 		
 	}
 	
-	public void setSize(int w, int h) {
-		width = w;
-		height = h;
+	public static void setSize(int w, int h) {
+		size[0] = w;
+		size[1] = h;
 	}
 	
 	public static int[] getSize() {
-		int[] size = new int[2];
-		size[0] = width;
-		size[1] = height;
 		return size;
 	}
 	
@@ -66,7 +62,7 @@ public class GameWorld extends Observable{
 			GameObject nextObject = elements.getNext();
 			if(nextObject instanceof Movable) {
 				Movable mObj = (Movable)nextObject;
-				mObj.move();
+				mObj.move(20);
 			}
 		}
 		setChanged();
@@ -239,7 +235,7 @@ public class GameWorld extends Observable{
 	//decrements remaining lives, re-inits GameWorld,  ends game if none left
 	public void loseLife() {
 		livesRemaining--;
-	
+		Nut.resetObjCnt();
 		PlayerSquirrel.reset();
 		System.out.println("You lost a life! " + getLivesRemaining() + " lives remaining.");
 		if(livesRemaining > 0) {
@@ -275,27 +271,8 @@ public class GameWorld extends Observable{
 	}
 
 	public IIterator getObjectList() {
-		/*
-		System.out.println("HELLO 1 ");
 		IIterator elements = gameObjectCollection.getIterator();
-		ArrayList<GameObject> list = new ArrayList<GameObject>();
-		
-		while(elements.hasNext()) {
-			list.add(elements.getNext());
-			System.out.println("HELLO 2");
-		}*/
-		IIterator elements = gameObjectCollection.getIterator();
-		
 		return elements;
-	}
-	
-	public void drawObjects(Graphics g) {
-		System.out.println("HELLO 2");
-		IIterator elements = gameObjectCollection.getIterator();
-		while(elements.hasNext()) {
-			GameObject go = elements.getNext();
-			go.draw(g, go.getLocation());
-		}
 	}
 	
 	//gets player squirrel

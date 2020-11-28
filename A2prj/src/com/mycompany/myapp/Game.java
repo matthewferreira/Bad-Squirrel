@@ -7,10 +7,11 @@ import com.codename1.ui.Form;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.plaf.Border;
+import com.codename1.ui.util.UITimer;
 import com.codename1.ui.Toolbar;
 
 
-public class Game extends Form{
+public class Game extends Form implements Runnable{
 
 	private GameWorld gw;
 	private MapView mv;
@@ -19,13 +20,13 @@ public class Game extends Form{
 	//game constructor
 	public Game() {
 		gw = new GameWorld(); // create Observable GameWorld
-		
 		mv = new MapView(gw); // create an Observer for the map
 		sv = new ScoreView(); // create an Observer for the game/player-squirrel
-		gw.init();			// init game world
-		
 		gw.addObserver(mv); // register map observer
-		gw.addObserver(sv); // register score observer
+		gw.addObserver(sv); // register score observer 
+		
+		UITimer timer = new UITimer(this);//make the timer tick every second and bind it to this form
+		timer.schedule(20, true, this);
 		
 		this.setTitle("Bad-Squirrel"); //set title of GUI window
 		this.setLayout(new BorderLayout()); //set layout of GUI container
@@ -188,5 +189,13 @@ public class Game extends Form{
 		eastContainer.add(turnRightButton);
 		
 		this.show();
+		GameWorld.setSize(mv.getSize()[0], mv.getSize()[1]-25);
+		gw.init();			// init game world
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		gw.tick();
 	}
 }

@@ -30,10 +30,12 @@ public class Tomato extends Fixed{
 		
 		int x = (int) pCmpRelPrnt.getX();
 		int y = (int) pCmpRelPrnt.getY();
-		int radius = nutrition/2;
+		int radius = this.getSize()*2;
 		g.setColor(this.getColor());
-		g.drawArc(x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY(), 2*radius, 2*radius, 0, 360);
 		g.fillArc(x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY(), 2*radius, 2*radius, 0, 360);
+		g.setColor(ColorUtil.BLACK);
+		g.drawArc(x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY(), 2*radius, 2*radius, 0, 360);
+		g.drawString(this.getNutrition() + "", x + (int)this.getLocation().getX() + this.getSize(), y + (int)this.getLocation().getY() + this.getSize());
 		
 	}
 	

@@ -49,6 +49,4 @@ public abstract class GameObject implements IDrawable{
 		int blue = ColorUtil.blue(getColor());
 		return "[" + red + ", " + green + ", " + blue + "]";
 	}
-	
-	
 }
