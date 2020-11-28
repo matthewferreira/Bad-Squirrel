@@ -37,10 +37,13 @@ public class Game extends Form implements Runnable{
 		TurnLeftCommand turnLeft = new TurnLeftCommand(gw);
 		TurnRightCommand turnRight = new TurnRightCommand(gw);
 		TickCommand tick = new TickCommand(gw);
+		
+		/*
 		BirdCollideCommand birdCollide = new BirdCollideCommand(gw);
 		NutCollideCommand nutCollide = new NutCollideCommand(gw);
 		TomatoCollideCommand tomatoCollide = new TomatoCollideCommand(gw);
 		NpcCollideCommand npcCollide = new NpcCollideCommand(gw);
+		*/
 		
 		//toolbar config
 		Toolbar topToolbar = new Toolbar();
@@ -69,8 +72,10 @@ public class Game extends Form implements Runnable{
 		addKeyListener('l', turnLeft);
 		addKeyListener('r', turnRight);
 		addKeyListener('t', tick);
+		/*
 		addKeyListener('g', birdCollide);
 		addKeyListener('e', tomatoCollide);
+		*/
 		
 		//north side container config. adds ScoreView to north container
 		Container northContainer = new Container(BoxLayout.xCenter());
@@ -81,6 +86,7 @@ public class Game extends Form implements Runnable{
 		// adds MapView to center 
 		this.add(BorderLayout.CENTER, mv);
 				
+		/*
 		//south side container configuration, creating buttons and adding respective commands and styles
 		Button collideNPCButton = new Button("Collide with NPC");
 		collideNPCButton.getUnselectedStyle().setBgColor(0x556B2F);
@@ -113,6 +119,7 @@ public class Game extends Form implements Runnable{
 		collideBirdButton.getUnselectedStyle().setPadding(5, 5, 5, 5);
 		collideBirdButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
 		collideBirdButton.setCommand(birdCollide);
+		*/
 		
 		Button tickButton = new Button("Tick");
 		tickButton.getUnselectedStyle().setBgColor(0x556B2F);
@@ -126,10 +133,12 @@ public class Game extends Form implements Runnable{
 		Container southContainer = new Container(BoxLayout.xCenter());
 		
 		this.add(BorderLayout.SOUTH, southContainer);
+		/*
 		southContainer.add(collideNPCButton);
 		southContainer.add(collideNutButton);
 		southContainer.add(collideTomatoButton);
 		southContainer.add(collideBirdButton);
+		*/
 		southContainer.add(tickButton);
 				
 		// creating buttons and assigning respective command for west container

@@ -65,6 +65,53 @@ public class NonPlayerSquirrel extends Squirrel{
 			super.setLocation(newX, newY);
 		}
 	}
+	
+	public void collide(GameObject g) {
+		
+		int dmgLvl = this.getDamageLevel();
+		int maxSpd = this.getMaximumSpeed();
+		int lnr = this.getLastNut();
+		int enerLvl = this.getEnergyLevel();
+		//if collides with bird, dmgLevel + 1, set new max speed, change speed, fade color
+		if(g instanceof Bird) {
+			dmgLvl += 1;
+			this.setDamageLevel(dmgLvl);
+			
+			maxSpd = (int) (maxSpd*(1-dmgLvl*0.01));
+			if(super.getSpeed() > getMaximumSpeed()) {
+				this.setSpeed(maxSpd);
+			}
+			fadeColor();
+		}
+		//if collides with squirrel, dmgLevel + 2, set new max speed, change speed, fade color
+		else if(g instanceof Squirrel) {
+			dmgLvl += 2;
+			this.setDamageLevel(dmgLvl);
+			maxSpd = (int) (maxSpd*(1-dmgLvl*0.01));
+			this.setMaximumSpeed(maxSpd);
+			if(super.getSpeed() > getMaximumSpeed()) {
+				this.setSpeed(maxSpd);
+			}
+			fadeColor();
+		}
+		//if collides with nut, check if nut is in order, check if nut is last nut and end game
+		else if(g instanceof Nut) {
+			Nut nut = (Nut)g;
+			
+			if(lnr + 1 == nut.getSeqNum()) {
+				lnr = nut.getSeqNum();
+				this.setLastNut(lnr);
+			}
+			if(lnr == Nut.getObjCount()) {
+				GameWorld.npcWin();
+			}
+		}
+		//if collides with tomato, energyLevel + nutrition of tomato
+		else if(g instanceof Tomato) {
+			enerLvl += ((Tomato) g).getNutrition();
+			this.setEnergyLevel(enerLvl);
+		}
+	}
 
 	@Override
 	public String toString() {
@@ -82,5 +129,14 @@ public class NonPlayerSquirrel extends Squirrel{
 		g.drawRect(x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY(), this.getSize(), this.getSize());
 		
 	}
+	/* 
+	public boolean collidesWith(GameObject obj) {
+		return false;
+	}
+	
+	public void handleCollision(GameObject otherObject) {
+		this.collide(otherObject);
+		this.getCollVec().add(otherObject);
+	}*/
 	
 }

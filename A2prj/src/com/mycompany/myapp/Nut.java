@@ -1,5 +1,7 @@
 package com.mycompany.myapp;
 
+import java.util.ArrayList;
+
 import com.codename1.charts.models.Point;
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
@@ -7,6 +9,7 @@ import com.codename1.ui.Graphics;
 public class Nut extends Fixed{
 	private static int objCount = 0;
 	private int sequenceNumber;
+	private ArrayList<GameObject> collisionVec = new ArrayList<GameObject>();
 	
 	public Nut() {
 		super(10, ColorUtil.CYAN);
@@ -54,6 +57,28 @@ public class Nut extends Fixed{
 	
 	public static void resetObjCnt() {
 		objCount=0;
+	}
+	
+	public boolean collidesWith(GameObject obj) {
+		boolean result = false;
+		int thisCenterX = (int) (this.getLocation().getX() + (this.getSize()/2)); // find centers
+		int thisCenterY = (int) (this.getLocation().getY() + (this.getSize()/2));
+		int otherCenterX = (int) (obj.getLocation().getX() + (obj.getSize()/2));
+		int otherCenterY = (int) (obj.getLocation().getY() + (obj.getSize()/2));// find dist between centers (use square, to avoid taking roots)
+		int dx = thisCenterX - otherCenterX;int dy = thisCenterY - otherCenterY;
+		int distBetweenCentersSqr = (dx*dx + dy*dy);// find square of sum of radii
+		int thisRadius = this.getSize()/2;
+		int otherRadius = obj.getSize()/2;
+		int radiiSqr = (thisRadius*thisRadius + 2*thisRadius*otherRadius+ otherRadius*otherRadius);
+		if (distBetweenCentersSqr <= radiiSqr && obj != this) { 
+			result = true ; 
+		}
+		
+		return result ;
+	}
+	
+	public void handleCollision(GameObject otherObject) {
+		this.getCollVec().add(otherObject);
 	}
 	
 }

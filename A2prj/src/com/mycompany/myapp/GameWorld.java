@@ -43,6 +43,7 @@ public class GameWorld extends Observable{
 	//move all objects, reduce squirrel energy, increase gameclock, check if squirrel out of energy (if so, loseLife())
 	public void tick() {
 		moveAll();
+		checkCollisions();
 		getPlayer().reduceEnergyLevel();
 		System.out.println("Player loc=" + getPlayer().getLocation().getX() + "," + getPlayer().getLocation().getY() + " steerDirection=" + getPlayer().getSteeringDirection() + " speed=" + getPlayer().getSpeed() + " head=" + getPlayer().getHeading() + " energyLevel=" + getPlayer().getEnergyLevel() + " lastNut=" + getPlayer().getLastNut());
 		gameClock++;
@@ -68,6 +69,43 @@ public class GameWorld extends Observable{
 		setChanged();
 		notifyObservers();
 	}
+	
+	public void checkCollisions() {
+		System.out.println("-----------CHECKING COLLISIONS-----------");
+		IIterator elements = gameObjectCollection.getIterator();
+		IIterator elements2 = gameObjectCollection.getIterator();
+		while(elements.hasNext()) {
+			GameObject current = elements.getNext();
+			
+			for(int i = 0; i < elements2.length(); i++) {
+				GameObject collideOb = elements2.get(i);
+				if(current.collidesWith(collideOb)) {
+					if(!current.getCollVec().contains(collideOb)) {
+						current.handleCollision(collideOb);
+						current.handleCollision(current);
+						if(current instanceof Tomato) {
+							if(((Tomato) current).getNutrition() != 0) {
+								addTomato();
+							}
+						}
+						else if(collideOb instanceof Tomato) {
+							if(((Tomato) collideOb).getNutrition() != 0) {
+								addTomato();
+							}
+						}
+						System.out.println(current + " collides with " + collideOb + ": TRUE");
+					}
+				}
+				else {
+					if(current.getCollVec().contains(collideOb)) {
+						current.getCollVec().remove(collideOb);
+					}
+				}
+			}
+		}
+		System.out.println("-----------DONE-----------");
+	}
+
 	
 	//gets all objects of given type
 	public ArrayList<GameObject> getObjsOfType(String type){
@@ -108,47 +146,6 @@ public class GameWorld extends Observable{
 		return gameObjectsOfType;
 	}
 	
-	// returns random object of certain type. needed for fake collisions for now
-	public GameObject getRandomObjOfType(String type) {
-		IIterator elements = gameObjectCollection.getIterator();
-		ArrayList<GameObject> gameObjectsOfType = new ArrayList<>();
-		Random random = new Random();
-		if(type.equals("Bird")) {
-			while(elements.hasNext()) {
-				GameObject nextObject = elements.getNext();
-				if(nextObject instanceof Bird) {
-					gameObjectsOfType.add((Bird)nextObject);
-				}
-			}
-		}
-		else if(type.equals("Nut")) {
-			while(elements.hasNext()) {
-				GameObject nextObject = elements.getNext();
-				if(nextObject instanceof Nut) {
-					gameObjectsOfType.add((Nut)nextObject);
-				}
-			}
-		}
-		else if(type.equals("Tomato")) {
-			while(elements.hasNext()) {
-				GameObject nextObject = elements.getNext();
-				if(nextObject instanceof Tomato) {
-					gameObjectsOfType.add((Tomato)nextObject);
-				}
-			}
-		}
-		else if(type.equals("NPC")) {
-			while(elements.hasNext()) {
-				GameObject nextObject = elements.getNext();
-				if(nextObject instanceof NonPlayerSquirrel) {
-					gameObjectsOfType.add((NonPlayerSquirrel)nextObject);
-				}
-			}
-		}
-		int randomInt = random.nextInt(gameObjectsOfType.size());
-		return gameObjectsOfType.get(randomInt);
-	}
-	
 	// accelerate the player squirrel
 	public void accelerate() {
 		getPlayer().accelerate();
@@ -175,6 +172,7 @@ public class GameWorld extends Observable{
 		setChanged();
 		notifyObservers();
 	}
+	
 	
 	//collides player with given gameobject
 	public void collidePlayer(GameObject go) {

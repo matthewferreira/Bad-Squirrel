@@ -1,14 +1,16 @@
 package com.mycompany.myapp;
+import java.util.ArrayList;
 import java.util.Random;
 import com.codename1.charts.models.Point;
 import com.codename1.charts.util.ColorUtil;
 
-public abstract class GameObject implements IDrawable{
+public abstract class GameObject implements IDrawable, ICollider{
 	
 	private int size;
 	private Point location = new Point();
 	private int color;
 	private Random rando = new Random();
+	private ArrayList<GameObject> collisionVec = new ArrayList<GameObject>();
 	
 	//constructor for objects with random location
 	public GameObject(int sz, int clr) {
@@ -49,4 +51,7 @@ public abstract class GameObject implements IDrawable{
 		int blue = ColorUtil.blue(getColor());
 		return "[" + red + ", " + green + ", " + blue + "]";
 	}
+	public ArrayList<GameObject> getCollVec(){
+		return collisionVec;
+	};
 }

@@ -1,5 +1,6 @@
 package com.mycompany.myapp;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.codename1.charts.util.ColorUtil;
@@ -13,18 +14,19 @@ public abstract class Squirrel extends Movable implements ISteerable{
 	private int damageLevel = 0;
 	private int lastNutReached = 1;
 	private int maximumSpeed = 40;
-	private int maxDamage = 10;
+	private int maxDamage = 100;
 	private int armor = 10;
+	private ArrayList<GameObject> collisionVec = new ArrayList<GameObject>();
 	
 	// basic squirrel constructor for npc squirrels
 	public Squirrel() {
 		
 		super(40, ColorUtil.GRAY);
 		Random random = new Random();
-		super.setSpeed(random.nextInt(5));
+		super.setSpeed(random.nextInt(1));
 		super.setHeading(random.nextInt(359));
 		// setting NPC location a couple squirrel lengths from first nut
-		super.setLocation(50 + (20 + random.nextInt(5))*super.getSize(), 200 + (20 + random.nextInt(5))*super.getSize());
+		super.setLocation(50 + (20 + random.nextInt(100))*super.getSize(), 200 + (20 + random.nextInt(100))*super.getSize());
 		//adding armor to NPC squirrels
 		maxDamage = armor + maxDamage;
 	}
@@ -96,40 +98,9 @@ public abstract class Squirrel extends Movable implements ISteerable{
 		super.setHeading(super.getHeading() + steeringDirection);
 	}
 	//collide squirrel with a game object, does different things based on which object
-	public void collide(GameObject g) {
-		//if collides with bird, dmgLevel + 1, set new max speed, change speed, fade color
-		if(g instanceof Bird) {
-			damageLevel += 1;
-			maximumSpeed = (int) (maximumSpeed*(1-damageLevel*0.1));
-			if(super.getSpeed() > getMaximumSpeed()) {
-				setSpeed(maximumSpeed);
-			}
-			fadeColor();
-		}
-		//if collides with squirrel, dmgLevel + 2, set new max speed, change speed, fade color
-		else if(g instanceof Squirrel) {
-			damageLevel += 2;
-			maximumSpeed = (int) (maximumSpeed*(1-damageLevel*0.1));
-			if(super.getSpeed() > getMaximumSpeed()) {
-				this.setSpeed(maximumSpeed);
-			}
-			fadeColor();
-		}
-		//if collides with nut, check if nut is in order, check if nut is last nut and end game
-		else if(g instanceof Nut) {
-			Nut nut = (Nut)g;
-			if(lastNutReached + 1 == nut.getSeqNum()) {
-				lastNutReached = nut.getSeqNum();
-			}
-			if(lastNutReached == Nut.getObjCount()) {
-				GameWorld.youWin();
-			}
-		}
-		//if collides with tomato, energyLevel + nutrition of tomato
-		else if(g instanceof Tomato) {
-			energyLevel += ((Tomato) g).getNutrition();
-		}
-	}
+	public abstract void collide(GameObject g);
+		
+	
 	//increase squirrel speed by 2
 	public void accelerate() {
 		this.setSpeed(super.getSpeed() + 5);
@@ -155,6 +126,31 @@ public abstract class Squirrel extends Movable implements ISteerable{
 		}
 		setColor(newRed, newGreen, newBlue);
 	}
+	
+	public boolean collidesWith(GameObject obj) {
+		boolean result = false;
+		int thisCenterX = (int) (this.getLocation().getX() + (this.getSize())); // find centers
+		int thisCenterY = (int) (this.getLocation().getY() + (this.getSize()));
+		int otherCenterX = (int) (obj.getLocation().getX() + (obj.getSize()));
+		int otherCenterY = (int) (obj.getLocation().getY() + (obj.getSize()));// find dist between centers (use square, to avoid taking roots)
+		int dx = thisCenterX - otherCenterX;int dy = thisCenterY - otherCenterY;
+		int distBetweenCentersSqr = (dx*dx + dy*dy);// find square of sum of radii
+		int thisRadius = this.getSize();
+		int otherRadius = obj.getSize();
+		int radiiSqr = (thisRadius*thisRadius + 2*thisRadius*otherRadius+ otherRadius*otherRadius);
+		if (distBetweenCentersSqr <= radiiSqr && obj != this) { 
+			result = true ; 
+		}
+		
+		return result ;
+	}
+	
+	
+	public void handleCollision(GameObject otherObject) {
+		this.collide(otherObject);
+		this.getCollVec().add(otherObject);
+	}
+	
 	public int getMaxDamage() {return maxDamage;}
 	
 	@Override

@@ -42,4 +42,80 @@ public class PlayerSquirrel extends Squirrel{
 		g.setColor(this.getColor());
 		g.fillRect(x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY(), this.getSize(), this.getSize());
 	}
+
+public void collide(GameObject g) {
+		
+		int dmgLvl = this.getDamageLevel();
+		int maxSpd = this.getMaximumSpeed();
+		int lnr = this.getLastNut();
+		int enerLvl = this.getEnergyLevel();
+		System.out.println("DAMAGE: " + dmgLvl);
+		System.out.println("MaxSpd: " + maxSpd);
+		System.out.println("LNR: " + lnr);
+		System.out.println("ENERGY: " + enerLvl);
+		//if collides with bird, dmgLevel + 1, set new max speed, change speed, fade color
+		if(g instanceof Bird) {
+			dmgLvl += 1;
+			this.setDamageLevel(dmgLvl);
+			
+			maxSpd = (int) (maxSpd*(1-dmgLvl*0.01));
+			if(super.getSpeed() > getMaximumSpeed()) {
+				this.setSpeed(maxSpd);
+			}
+			fadeColor();
+		}
+		//if collides with squirrel, dmgLevel + 2, set new max speed, change speed, fade color
+		else if(g instanceof Squirrel) {
+			dmgLvl += 2;
+			this.setDamageLevel(dmgLvl);
+			maxSpd = (int) (maxSpd*(1-dmgLvl*0.01));
+			this.setMaximumSpeed(maxSpd);
+			if(super.getSpeed() > getMaximumSpeed()) {
+				this.setSpeed(maxSpd);
+			}
+			fadeColor();
+		}
+		//if collides with nut, check if nut is in order, check if nut is last nut and end game
+		else if(g instanceof Nut) {
+			Nut nut = (Nut)g;
+			
+			if(lnr + 1 == nut.getSeqNum()) {
+				lnr = nut.getSeqNum();
+				this.setLastNut(lnr);
+			}
+			if(lnr == Nut.getObjCount()) {
+				GameWorld.youWin();
+			}
+		}
+		//if collides with tomato, energyLevel + nutrition of tomato
+		else if(g instanceof Tomato) {
+			enerLvl += ((Tomato) g).getNutrition();
+			this.setEnergyLevel(enerLvl);
+		}
+	}
+	
+	/*
+	public boolean collidesWith(GameObject obj) {
+		boolean result = false;
+		int thisCenterX = (int) (this.getLocation().getX() + (this.getSize())); // find centers
+		int thisCenterY = (int) (this.getLocation().getY() + (this.getSize()));
+		int otherCenterX = (int) (obj.getLocation().getX() + (obj.getSize()));
+		int otherCenterY = (int) (obj.getLocation().getY() + (obj.getSize()));// find dist between centers (use square, to avoid taking roots)
+		int dx = thisCenterX - otherCenterX;int dy = thisCenterY - otherCenterY;
+		int distBetweenCentersSqr = (dx*dx + dy*dy);// find square of sum of radii
+		int thisRadius = this.getSize();
+		int otherRadius = obj.getSize();
+		int radiiSqr = (thisRadius*thisRadius + 2*thisRadius*otherRadius+ otherRadius*otherRadius);
+		if (distBetweenCentersSqr <= radiiSqr && obj != this) { 
+			result = true ; 
+		}
+		//System.out.println(this + " collidesWIth " + obj + ": "+ result);
+		return result ;
+	}
+	
+	public void handleCollision(GameObject otherObject) {
+		this.collide(otherObject);
+		this.getCollVec().add(otherObject);
+	}*/
+
 }
