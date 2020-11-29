@@ -93,29 +93,4 @@ public void collide(GameObject g) {
 			this.setEnergyLevel(enerLvl);
 		}
 	}
-	
-	/*
-	public boolean collidesWith(GameObject obj) {
-		boolean result = false;
-		int thisCenterX = (int) (this.getLocation().getX() + (this.getSize())); // find centers
-		int thisCenterY = (int) (this.getLocation().getY() + (this.getSize()));
-		int otherCenterX = (int) (obj.getLocation().getX() + (obj.getSize()));
-		int otherCenterY = (int) (obj.getLocation().getY() + (obj.getSize()));// find dist between centers (use square, to avoid taking roots)
-		int dx = thisCenterX - otherCenterX;int dy = thisCenterY - otherCenterY;
-		int distBetweenCentersSqr = (dx*dx + dy*dy);// find square of sum of radii
-		int thisRadius = this.getSize();
-		int otherRadius = obj.getSize();
-		int radiiSqr = (thisRadius*thisRadius + 2*thisRadius*otherRadius+ otherRadius*otherRadius);
-		if (distBetweenCentersSqr <= radiiSqr && obj != this) { 
-			result = true ; 
-		}
-		//System.out.println(this + " collidesWIth " + obj + ": "+ result);
-		return result ;
-	}
-	
-	public void handleCollision(GameObject otherObject) {
-		this.collide(otherObject);
-		this.getCollVec().add(otherObject);
-	}*/
-
 }

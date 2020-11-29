@@ -104,8 +104,12 @@ public class GameWorld extends Observable{
 			}
 		}
 		System.out.println("-----------DONE-----------");
+		if(getPlayer().getDamageLevel() >= getPlayer().getMaxDamage()) {
+			loseLife();
+		}
+		setChanged();
+		notifyObservers();
 	}
-
 	
 	//gets all objects of given type
 	public ArrayList<GameObject> getObjsOfType(String type){
@@ -195,11 +199,8 @@ public class GameWorld extends Observable{
 	public int[] display() {
 		int[] stats = new int[6];
 		int soundOn = 0;
-		if(sound) {
-			soundOn = 1;
-		}
+		if(sound) { soundOn = 1; }
 		else { soundOn = 0; }
-		
 		stats[0] = getLivesRemaining();
 		stats[1] = getGameClock();
 		stats[2] = getPlayer().getLastNut();

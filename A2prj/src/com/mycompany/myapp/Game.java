@@ -38,13 +38,6 @@ public class Game extends Form implements Runnable{
 		TurnRightCommand turnRight = new TurnRightCommand(gw);
 		TickCommand tick = new TickCommand(gw);
 		
-		/*
-		BirdCollideCommand birdCollide = new BirdCollideCommand(gw);
-		NutCollideCommand nutCollide = new NutCollideCommand(gw);
-		TomatoCollideCommand tomatoCollide = new TomatoCollideCommand(gw);
-		NpcCollideCommand npcCollide = new NpcCollideCommand(gw);
-		*/
-		
 		//toolbar config
 		Toolbar topToolbar = new Toolbar();
 		setToolbar(topToolbar);
@@ -72,10 +65,6 @@ public class Game extends Form implements Runnable{
 		addKeyListener('l', turnLeft);
 		addKeyListener('r', turnRight);
 		addKeyListener('t', tick);
-		/*
-		addKeyListener('g', birdCollide);
-		addKeyListener('e', tomatoCollide);
-		*/
 		
 		//north side container config. adds ScoreView to north container
 		Container northContainer = new Container(BoxLayout.xCenter());
@@ -85,42 +74,7 @@ public class Game extends Form implements Runnable{
 		// center container config
 		// adds MapView to center 
 		this.add(BorderLayout.CENTER, mv);
-				
-		/*
-		//south side container configuration, creating buttons and adding respective commands and styles
-		Button collideNPCButton = new Button("Collide with NPC");
-		collideNPCButton.getUnselectedStyle().setBgColor(0x556B2F);
-		collideNPCButton.getUnselectedStyle().setFgColor(0x81613C);
-		collideNPCButton.getUnselectedStyle().setBgTransparency(128);
-		collideNPCButton.getUnselectedStyle().setPadding(5, 5, 5, 5);
-		collideNPCButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
-		collideNPCButton.setCommand(npcCollide);
-		
-		Button collideNutButton = new Button("Collide with Nut");
-		collideNutButton.getUnselectedStyle().setBgColor(0x556B2F);
-		collideNutButton.getUnselectedStyle().setFgColor(0x81613C);
-		collideNutButton.getUnselectedStyle().setBgTransparency(128);
-		collideNutButton.getUnselectedStyle().setPadding(5, 5, 5, 5);
-		collideNutButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
-		collideNutButton.setCommand(nutCollide);
-		
-		Button collideTomatoButton = new Button("Collide with Tomato");
-		collideTomatoButton.getUnselectedStyle().setBgColor(0x556B2F);
-		collideTomatoButton.getUnselectedStyle().setFgColor(0x81613C);
-		collideTomatoButton.getUnselectedStyle().setBgTransparency(128);
-		collideTomatoButton.getUnselectedStyle().setPadding(5, 5, 5, 5);
-		collideTomatoButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
-		collideTomatoButton.setCommand(tomatoCollide);
-		
-		Button collideBirdButton = new Button("Collide with Bird");
-		collideBirdButton.getUnselectedStyle().setBgColor(0x556B2F);
-		collideBirdButton.getUnselectedStyle().setFgColor(0x81613C);
-		collideBirdButton.getUnselectedStyle().setBgTransparency(128);
-		collideBirdButton.getUnselectedStyle().setPadding(5, 5, 5, 5);
-		collideBirdButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
-		collideBirdButton.setCommand(birdCollide);
-		*/
-		
+
 		Button tickButton = new Button("Tick");
 		tickButton.getUnselectedStyle().setBgColor(0x556B2F);
 		tickButton.getUnselectedStyle().setFgColor(0x81613C);
@@ -133,12 +87,6 @@ public class Game extends Form implements Runnable{
 		Container southContainer = new Container(BoxLayout.xCenter());
 		
 		this.add(BorderLayout.SOUTH, southContainer);
-		/*
-		southContainer.add(collideNPCButton);
-		southContainer.add(collideNutButton);
-		southContainer.add(collideTomatoButton);
-		southContainer.add(collideBirdButton);
-		*/
 		southContainer.add(tickButton);
 				
 		// creating buttons and assigning respective command for west container
@@ -198,6 +146,7 @@ public class Game extends Form implements Runnable{
 		eastContainer.add(turnRightButton);
 		
 		this.show();
+		//createSounds();
 		GameWorld.setSize(mv.getSize()[0], mv.getSize()[1]-25);
 		gw.init();			// init game world
 	}

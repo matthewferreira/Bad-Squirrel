@@ -9,7 +9,7 @@ public abstract class Squirrel extends Movable implements ISteerable{
 	
 	
 	private int steeringDirection = 0;
-	private int energyLevel = 1000;
+	private int energyLevel = 500;
 	private int energyConsumptionRate = 1;
 	private int damageLevel = 0;
 	private int lastNutReached = 1;
@@ -100,7 +100,6 @@ public abstract class Squirrel extends Movable implements ISteerable{
 	//collide squirrel with a game object, does different things based on which object
 	public abstract void collide(GameObject g);
 		
-	
 	//increase squirrel speed by 2
 	public void accelerate() {
 		this.setSpeed(super.getSpeed() + 5);
@@ -141,7 +140,6 @@ public abstract class Squirrel extends Movable implements ISteerable{
 		if (distBetweenCentersSqr <= radiiSqr && obj != this) { 
 			result = true ; 
 		}
-		
 		return result ;
 	}
 	

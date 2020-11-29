@@ -127,16 +127,5 @@ public class NonPlayerSquirrel extends Squirrel{
 		int y = (int) pCmpRelPrnt.getY();
 		g.setColor(this.getColor());
 		g.drawRect(x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY(), this.getSize(), this.getSize());
-		
 	}
-	/* 
-	public boolean collidesWith(GameObject obj) {
-		return false;
-	}
-	
-	public void handleCollision(GameObject otherObject) {
-		this.collide(otherObject);
-		this.getCollVec().add(otherObject);
-	}*/
-	
 }
