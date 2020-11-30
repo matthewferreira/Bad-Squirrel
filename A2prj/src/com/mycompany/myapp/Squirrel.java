@@ -7,7 +7,6 @@ import com.codename1.charts.util.ColorUtil;
 
 public abstract class Squirrel extends Movable implements ISteerable{
 	
-	
 	private int steeringDirection = 0;
 	private int energyLevel = 500;
 	private int energyConsumptionRate = 1;
@@ -17,6 +16,9 @@ public abstract class Squirrel extends Movable implements ISteerable{
 	private int maxDamage = 100;
 	private int armor = 10;
 	private ArrayList<GameObject> collisionVec = new ArrayList<GameObject>();
+	private Sound hurtSound;
+	private Sound deathSound;
+	private Sound eatSound;
 	
 	// basic squirrel constructor for npc squirrels
 	public Squirrel() {
@@ -29,6 +31,7 @@ public abstract class Squirrel extends Movable implements ISteerable{
 		super.setLocation(50 + (20 + random.nextInt(100))*super.getSize(), 200 + (20 + random.nextInt(100))*super.getSize());
 		//adding armor to NPC squirrels
 		maxDamage = armor + maxDamage;
+		//createSounds();
 	}
 	//constructor for player squirrel to specify start location
 	public Squirrel(float x, float y) {
@@ -36,6 +39,7 @@ public abstract class Squirrel extends Movable implements ISteerable{
 		super.setSpeed(5);
 		super.setHeading(0);
 		armor = 0;
+		//createSounds();
 	}
 	//getters and setters for squirrel vars
 	public int getSteeringDirection() { return steeringDirection; }
@@ -150,6 +154,20 @@ public abstract class Squirrel extends Movable implements ISteerable{
 	}
 	
 	public int getMaxDamage() {return maxDamage;}
+	
+	public void createSounds() {
+		//Sound[] sounds = getSounds();
+		//sounds[0] = new Sound("death2.wav");
+		//sounds[1] = new Sound("death2.wav");
+		//sounds[2] = new Sound("ra.wav");
+		//hurtSound = new Sound("pain100_1.wav");
+		
+	}
+	
+	public Sound[] getSounds() {
+		Sound[] sounds = {hurtSound, deathSound, eatSound};
+		return sounds;
+	}
 	
 	@Override
 	public String toString() {

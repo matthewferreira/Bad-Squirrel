@@ -10,6 +10,7 @@ public class Nut extends Fixed{
 	private static int objCount = 0;
 	private int sequenceNumber;
 	private ArrayList<GameObject> collisionVec = new ArrayList<GameObject>();
+	private boolean isSelected = false;
 	
 	public Nut() {
 		super(10, ColorUtil.CYAN);
@@ -47,12 +48,20 @@ public class Nut extends Fixed{
 		int y = (int) pCmpRelPrnt.getY();
 		int[] xPoints = { x + (int)this.getLocation().getX() - 3*this.getSize(), x + (int)this.getLocation().getX() + 3*this.getSize(), x + (int)this.getLocation().getX()};
 		int[] yPoints = { y + (int)this.getLocation().getY(), y + (int)this.getLocation().getY(), y + (int)this.getLocation().getY() + 10*this.getSize()};
-		g.setColor(this.getColor());
-		g.fillPolygon(xPoints, yPoints, 3);
-		g.setColor(ColorUtil.BLACK);
-		g.drawPolygon(xPoints, yPoints, 3);
-		g.drawString(this.getSeqNum() + "", x + (int)this.getLocation().getX()- this.getSize(), y + (int)this.getLocation().getY());
-		
+		if(this.isSelected()) {
+			g.setColor(this.getColor());
+			g.drawPolygon(xPoints, yPoints, 3);
+			g.setColor(ColorUtil.BLACK);
+			g.drawPolygon(xPoints, yPoints, 3);
+			g.drawString(this.getSeqNum() + "", x + (int)this.getLocation().getX()- this.getSize(), y + (int)this.getLocation().getY());
+		}
+		else {
+			g.setColor(this.getColor());
+			g.fillPolygon(xPoints, yPoints, 3);
+			g.setColor(ColorUtil.BLACK);
+			g.drawPolygon(xPoints, yPoints, 3);
+			g.drawString(this.getSeqNum() + "", x + (int)this.getLocation().getX()- this.getSize(), y + (int)this.getLocation().getY());
+		}
 	}
 	
 	public static void resetObjCnt() {
@@ -79,6 +88,30 @@ public class Nut extends Fixed{
 	
 	public void handleCollision(GameObject otherObject) {
 		this.getCollVec().add(otherObject);
+	}
+	
+public boolean isSelected() {return isSelected;}
+	
+	public void setSelected(boolean b) {this.isSelected = b;}
+	
+	public boolean contains(Point pPtrRelPrnt, Point pCmpRelPrnt) {
+		
+		int thisCenterX = (int)(this.getLocation().getX());
+		int thisCenterY = (int)(this.getLocation().getY());
+		
+		int px = (int) pPtrRelPrnt.getX(); // pointer location relative to
+		int py = (int) pPtrRelPrnt.getY(); 
+		
+		int xLoc = (int) (pCmpRelPrnt.getX()+ thisCenterX) - 3*this.getSize();// shape location relative
+		int yLoc = (int) (pCmpRelPrnt.getY()+ thisCenterY);//
+		
+		if ( (px >= xLoc-3*this.getSize()) && (px <= xLoc+3*this.getSize()) && (py >= yLoc ) && (py <= yLoc+10*this.getSize()) ) {
+			return true; 
+		}
+		else 
+		{
+			return false;
+		}
 	}
 	
 }

@@ -10,12 +10,12 @@ public class GameWorld extends Observable{
 	private static int gameClock = 0;
 	private GameObjectCollection gameObjectCollection;
 	private int livesRemaining = 3;
-	private boolean sound = false;
+	private static boolean sound = false;
 	private static int[] size = new int[2];
+	private static boolean play = true;
 	
 	public void init() {
 		gameObjectCollection = new GameObjectCollection();
-		
 		gameObjectCollection.add(new Nut(50, 200));
 		gameObjectCollection.add(new Nut(200, 275));
 		gameObjectCollection.add(new Nut(500, 500));
@@ -28,7 +28,6 @@ public class GameWorld extends Observable{
 		gameObjectCollection.add(new Bird());
 		gameObjectCollection.add(new Tomato());
 		gameObjectCollection.add(new Tomato());
-		
 	}
 	
 	public static void setSize(int w, int h) {
@@ -177,7 +176,6 @@ public class GameWorld extends Observable{
 		notifyObservers();
 	}
 	
-	
 	//collides player with given gameobject
 	public void collidePlayer(GameObject go) {
 		getPlayer().collide(go);
@@ -267,6 +265,9 @@ public class GameWorld extends Observable{
 		else { sound = false; }
 		setChanged();
 		notifyObservers();
+	}
+	public static boolean getSound() {
+		return sound;
 	}
 
 	public IIterator getObjectList() {

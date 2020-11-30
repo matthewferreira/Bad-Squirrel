@@ -11,6 +11,7 @@ public class Tomato extends Fixed{
 	private static Random random = new Random();
 	private int nutrition;
 	private ArrayList<GameObject> collisionVec = new ArrayList<GameObject>();
+	private boolean isSelected = false;
 	
 	public Tomato() {
 		super(10 + random.nextInt(40), ColorUtil.rgb(255, 0, 0));
@@ -33,12 +34,19 @@ public class Tomato extends Fixed{
 		int x = (int) pCmpRelPrnt.getX();
 		int y = (int) pCmpRelPrnt.getY();
 		int radius = this.getSize()*2;
-		g.setColor(this.getColor());
-		g.fillArc(x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY(), 2*radius, 2*radius, 0, 360);
-		g.setColor(ColorUtil.BLACK);
-		g.drawArc(x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY(), 2*radius, 2*radius, 0, 360);
-		g.drawString(this.getNutrition() + "", x + (int)this.getLocation().getX() + this.getSize(), y + (int)this.getLocation().getY() + this.getSize());
-		
+		if(this.isSelected()) {
+			g.setColor(this.getColor());
+			g.setColor(ColorUtil.BLACK);
+			g.drawArc(x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY(), 2*radius, 2*radius, 0, 360);
+			g.drawString(this.getNutrition() + "", x + (int)this.getLocation().getX() + this.getSize(), y + (int)this.getLocation().getY() + this.getSize());
+		}
+		else {
+			g.setColor(this.getColor());
+			g.fillArc(x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY(), 2*radius, 2*radius, 0, 360);
+			g.setColor(ColorUtil.BLACK);
+			g.drawArc(x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY(), 2*radius, 2*radius, 0, 360);
+			g.drawString(this.getNutrition() + "", x + (int)this.getLocation().getX() + this.getSize(), y + (int)this.getLocation().getY() + this.getSize());
+		}
 	}
 	
 	public boolean collidesWith(GameObject obj) {
@@ -59,7 +67,31 @@ public class Tomato extends Fixed{
 		return result ;
 	}
 	
-
+	public void setSelected(boolean b) {
+		this.isSelected = b;
+	}
+	public boolean isSelected() {
+		return this.isSelected;
+	}
+	
+	public boolean contains(Point pPtrRelPrnt, Point pCmpRelPrnt) {
+		
+		int thisCenterX = (int)(this.getLocation().getX()) + this.getSize();
+		int thisCenterY = (int)(this.getLocation().getY()) + this.getSize();
+		System.out.println("--------------------");
+		System.out.println("CENTER: " + thisCenterX + ", " + thisCenterY);
+		int px = (int) pPtrRelPrnt.getX(); // pointer location relative to
+		int py = (int) pPtrRelPrnt.getY(); //parents origin
+		System.out.println("POINTER: " + px + ", " + px);
+		System.out.println("CMP REL PRNT: " + pCmpRelPrnt.getX() + ", " + pCmpRelPrnt.getY());
+		
+		int xLoc = (int) (pCmpRelPrnt.getX()+thisCenterX);// shape location relative
+		int yLoc = (int) (pCmpRelPrnt.getY()+thisCenterY);// to parents origin
+		System.out.println("SHAPE: " + xLoc + ", " + yLoc);
+		if( (px >= xLoc - this.getSize()*3) && (px <= xLoc+this.getSize()*3) && (py >= yLoc - this.getSize()*3) && (py <= yLoc+this.getSize()*3) ) 
+		{ return true; }
+		else {return false;}
+	}
 	
 	public void handleCollision(GameObject otherObject) {
 		this.collide();

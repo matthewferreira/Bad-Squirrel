@@ -47,4 +47,28 @@ public class MapView extends Container implements Observer{
 		int[] size = { this.getWidth(), this.getHeight() };
 		return size;
 	}
+	
+	public void pointerPressed(int x, int y) {
+		//make pointer location relative to parents origin
+		x = x - getParent().getAbsoluteX();
+		y = y - getParent().getAbsoluteY();
+		Point pPtrRelPrnt = new Point(x, y); 
+		Point pCmpRelPrnt = new Point(getX(), getY()); 
+		System.out.println("CMP-REL-PRNT" + pCmpRelPrnt.getX() + ", " + pCmpRelPrnt.getY());
+		
+		IIterator gameObjects = gw.getObjectList();
+		while(gameObjects.hasNext()) {
+			GameObject go = gameObjects.getNext();
+			if(go instanceof ISelectable) {
+				ISelectable is = (ISelectable)go;
+				if(is.contains(pPtrRelPrnt, pCmpRelPrnt)) {
+					is.setSelected(true);
+				}
+				else {
+					is.setSelected(false);
+				}
+			}
+			repaint();
+		}
+	}
 }

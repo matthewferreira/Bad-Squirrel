@@ -16,6 +16,9 @@ public class Game extends Form implements Runnable{
 	private GameWorld gw;
 	private MapView mv;
 	private ScoreView sv;
+	private boolean play = true;
+	private UITimer timer;
+	private Button playPauseButton;
 	
 	//game constructor
 	public Game() {
@@ -25,7 +28,7 @@ public class Game extends Form implements Runnable{
 		gw.addObserver(mv); // register map observer
 		gw.addObserver(sv); // register score observer 
 		
-		UITimer timer = new UITimer(this);//make the timer tick every second and bind it to this form
+		timer = new UITimer(this);//make the timer tick every second and bind it to this form
 		timer.schedule(20, true, this);
 		
 		this.setTitle("Bad-Squirrel"); //set title of GUI window
@@ -50,6 +53,10 @@ public class Game extends Form implements Runnable{
 		SoundCommand toggleSound = new SoundCommand(gw);
 		AboutCommand about = new AboutCommand();
 		soundBox.setCommand(toggleSound);
+		
+		PlayPauseCommand playPause = new PlayPauseCommand(this);
+		if(playPause.game == this) {System.out.println("AAAAAA");}
+		else {System.out.println("BBBBBB");}
 						
 		//adding side menu commands to side menu
 		topToolbar.setTitle("Bad-Squirrel");
@@ -64,7 +71,7 @@ public class Game extends Form implements Runnable{
 		addKeyListener('a', accelerate);
 		addKeyListener('l', turnLeft);
 		addKeyListener('r', turnRight);
-		addKeyListener('t', tick);
+		//addKeyListener('p', playPause);
 		
 		//north side container config. adds ScoreView to north container
 		Container northContainer = new Container(BoxLayout.xCenter());
@@ -75,19 +82,19 @@ public class Game extends Form implements Runnable{
 		// adds MapView to center 
 		this.add(BorderLayout.CENTER, mv);
 
-		Button tickButton = new Button("Tick");
-		tickButton.getUnselectedStyle().setBgColor(0x556B2F);
-		tickButton.getUnselectedStyle().setFgColor(0x81613C);
-		tickButton.getUnselectedStyle().setBgTransparency(128);
-		tickButton.getUnselectedStyle().setPadding(5, 5, 5, 5);
-		tickButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
-		tickButton.setCommand(tick);
 		
 		// south container configuration
 		Container southContainer = new Container(BoxLayout.xCenter());
-		
+		playPauseButton = new Button("Pause");
+		playPauseButton.getUnselectedStyle().setBgColor(0x556B2F);
+		playPauseButton.getUnselectedStyle().setFgColor(0x81613C);
+		playPauseButton.getUnselectedStyle().setBgTransparency(128);
+		playPauseButton.getUnselectedStyle().setPadding(5, 5, 5, 5);
+		playPauseButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
+		playPauseButton.setCommand(playPause);
 		this.add(BorderLayout.SOUTH, southContainer);
-		southContainer.add(tickButton);
+		southContainer.add(playPauseButton);
+
 				
 		// creating buttons and assigning respective command for west container
 		Button accelerateButton = new Button("Accelerate");
@@ -145,15 +152,33 @@ public class Game extends Form implements Runnable{
 		eastContainer.add(brakeButton);
 		eastContainer.add(turnRightButton);
 		
+		
+		
+		
 		this.show();
-		//createSounds();
 		GameWorld.setSize(mv.getSize()[0], mv.getSize()[1]-25);
 		gw.init();			// init game world
 	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		gw.tick();
 	}
+	
+	public void toggleMode() {
+		play = !play;
+		if(play) {
+			if(timer != null) {
+				timer.schedule(20, true, this);
+				playPauseButton.setText("Pause");
+			}
+		}
+		else {
+			if(timer != null) {
+				timer.cancel();
+				playPauseButton.setText("Play");
+			}
+		}
+	}
+	
 }

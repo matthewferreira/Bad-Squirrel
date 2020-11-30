@@ -1,6 +1,6 @@
 package com.mycompany.myapp;
 
-public abstract class Fixed extends GameObject{
+public abstract class Fixed extends GameObject implements ISelectable{
 	
 	//constructor for objects with random locations
 	public Fixed(int sz, int clr) {
@@ -14,5 +14,5 @@ public abstract class Fixed extends GameObject{
 	//fixed objects can't move
 	@Override
 	public void setLocation(float x, float y){}
-	
+
 }

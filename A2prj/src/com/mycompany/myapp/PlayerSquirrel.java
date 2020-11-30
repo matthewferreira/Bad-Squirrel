@@ -43,7 +43,7 @@ public class PlayerSquirrel extends Squirrel{
 		g.fillRect(x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY(), this.getSize(), this.getSize());
 	}
 
-public void collide(GameObject g) {
+	public void collide(GameObject g) {
 		
 		int dmgLvl = this.getDamageLevel();
 		int maxSpd = this.getMaximumSpeed();
@@ -74,6 +74,7 @@ public void collide(GameObject g) {
 				this.setSpeed(maxSpd);
 			}
 			fadeColor();
+			//this.getSounds()[0].play();
 		}
 		//if collides with nut, check if nut is in order, check if nut is last nut and end game
 		else if(g instanceof Nut) {
