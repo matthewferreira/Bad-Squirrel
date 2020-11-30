@@ -12,7 +12,6 @@ public class GameWorld extends Observable{
 	private int livesRemaining = 3;
 	private static boolean sound = false;
 	private static int[] size = new int[2];
-	private static boolean play = true;
 	
 	public void init() {
 		gameObjectCollection = new GameObjectCollection();
@@ -28,6 +27,7 @@ public class GameWorld extends Observable{
 		gameObjectCollection.add(new Bird());
 		gameObjectCollection.add(new Tomato());
 		gameObjectCollection.add(new Tomato());
+
 	}
 	
 	public static void setSize(int w, int h) {

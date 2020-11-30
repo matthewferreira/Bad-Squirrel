@@ -97,5 +97,4 @@ public class Tomato extends Fixed{
 		this.collide();
 		this.getCollVec().add(otherObject);
 	}
-	
 }

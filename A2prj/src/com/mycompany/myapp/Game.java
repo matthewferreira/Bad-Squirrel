@@ -10,15 +10,26 @@ import com.codename1.ui.plaf.Border;
 import com.codename1.ui.util.UITimer;
 import com.codename1.ui.Toolbar;
 
-
 public class Game extends Form implements Runnable{
 
 	private GameWorld gw;
 	private MapView mv;
 	private ScoreView sv;
-	private boolean play = true;
+	private static boolean play = true;
 	private UITimer timer;
+	
 	private Button playPauseButton;
+	private Button accelerateButton;
+	private Button turnLeftButton;
+	private Button positionButton;
+	private Button brakeButton;
+	private Button turnRightButton;
+	
+	private BrakeCommand brake;
+	private AccelerateCommand accelerate;
+	private TurnLeftCommand turnLeft;
+	private TurnRightCommand turnRight;
+	
 	
 	//game constructor
 	public Game() {
@@ -35,11 +46,10 @@ public class Game extends Form implements Runnable{
 		this.setLayout(new BorderLayout()); //set layout of GUI container
 		
 		//creating Command objects for each command
-		BrakeCommand brake = new BrakeCommand(gw);
-		AccelerateCommand accelerate = new AccelerateCommand(gw);
-		TurnLeftCommand turnLeft = new TurnLeftCommand(gw);
-		TurnRightCommand turnRight = new TurnRightCommand(gw);
-		TickCommand tick = new TickCommand(gw);
+		brake = new BrakeCommand(gw);
+		accelerate = new AccelerateCommand(gw);
+		turnLeft = new TurnLeftCommand(gw);
+		turnRight = new TurnRightCommand(gw);
 		
 		//toolbar config
 		Toolbar topToolbar = new Toolbar();
@@ -55,8 +65,7 @@ public class Game extends Form implements Runnable{
 		soundBox.setCommand(toggleSound);
 		
 		PlayPauseCommand playPause = new PlayPauseCommand(this);
-		if(playPause.game == this) {System.out.println("AAAAAA");}
-		else {System.out.println("BBBBBB");}
+		PositionCommand position = new PositionCommand(gw);
 						
 		//adding side menu commands to side menu
 		topToolbar.setTitle("Bad-Squirrel");
@@ -71,7 +80,6 @@ public class Game extends Form implements Runnable{
 		addKeyListener('a', accelerate);
 		addKeyListener('l', turnLeft);
 		addKeyListener('r', turnRight);
-		//addKeyListener('p', playPause);
 		
 		//north side container config. adds ScoreView to north container
 		Container northContainer = new Container(BoxLayout.xCenter());
@@ -82,7 +90,6 @@ public class Game extends Form implements Runnable{
 		// adds MapView to center 
 		this.add(BorderLayout.CENTER, mv);
 
-		
 		// south container configuration
 		Container southContainer = new Container(BoxLayout.xCenter());
 		playPauseButton = new Button("Pause");
@@ -92,12 +99,20 @@ public class Game extends Form implements Runnable{
 		playPauseButton.getUnselectedStyle().setPadding(5, 5, 5, 5);
 		playPauseButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
 		playPauseButton.setCommand(playPause);
-		this.add(BorderLayout.SOUTH, southContainer);
 		southContainer.add(playPauseButton);
-
+		
+		positionButton = new Button("Position");
+		positionButton.getUnselectedStyle().setBgColor(0x556B2F);
+		positionButton.getUnselectedStyle().setFgColor(0x81613C);
+		positionButton.getUnselectedStyle().setBgTransparency(128);
+		positionButton.getUnselectedStyle().setPadding(5, 5, 5, 5);
+		positionButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
+		positionButton.setCommand(position);
+		southContainer.add(positionButton);
+		this.add(BorderLayout.SOUTH, southContainer);
 				
 		// creating buttons and assigning respective command for west container
-		Button accelerateButton = new Button("Accelerate");
+		accelerateButton = new Button("Accelerate");
 		accelerateButton.getUnselectedStyle().setBgColor(0x556B2F);
 		accelerateButton.getUnselectedStyle().setFgColor(0x81613C);
 		accelerateButton.getUnselectedStyle().setBgTransparency(128);
@@ -105,7 +120,7 @@ public class Game extends Form implements Runnable{
 		accelerateButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
 		accelerateButton.setCommand(accelerate);
 		
-		Button turnLeftButton = new Button("Turn Left");
+		turnLeftButton = new Button("Turn Left");
 		turnLeftButton.getUnselectedStyle().setBgColor(0x556B2F);
 		turnLeftButton.getUnselectedStyle().setFgColor(0x81613C);
 		turnLeftButton.getUnselectedStyle().setBgTransparency(128);
@@ -131,7 +146,7 @@ public class Game extends Form implements Runnable{
 		westContainer.add(changeStratButton);
 				
 		//east side container configuration
-		Button brakeButton = new Button("Brake");
+		brakeButton = new Button("Brake");
 		brakeButton.getUnselectedStyle().setBgColor(0x556B2F);
 		brakeButton.getUnselectedStyle().setFgColor(0x81613C);
 		brakeButton.getUnselectedStyle().setBgTransparency(128);
@@ -139,7 +154,7 @@ public class Game extends Form implements Runnable{
 		brakeButton.getUnselectedStyle().setBorder(Border.createLineBorder(2));
 		brakeButton.setCommand(brake);
 		
-		Button turnRightButton = new Button("Turn Right");
+		turnRightButton = new Button("Turn Right");
 		turnRightButton.getUnselectedStyle().setBgColor(0x556B2F);
 		turnRightButton.getUnselectedStyle().setFgColor(0x81613C);
 		turnRightButton.getUnselectedStyle().setBgTransparency(128);
@@ -151,9 +166,6 @@ public class Game extends Form implements Runnable{
 		this.add(BorderLayout.EAST, eastContainer);
 		eastContainer.add(brakeButton);
 		eastContainer.add(turnRightButton);
-		
-		
-		
 		
 		this.show();
 		GameWorld.setSize(mv.getSize()[0], mv.getSize()[1]-25);
@@ -171,14 +183,34 @@ public class Game extends Form implements Runnable{
 			if(timer != null) {
 				timer.schedule(20, true, this);
 				playPauseButton.setText("Pause");
+				accelerateButton.setEnabled(true);
+				turnLeftButton.setEnabled(true);
+				positionButton.setEnabled(false);
+				brakeButton.setEnabled(true);
+				turnRightButton.setEnabled(true);
+				addKeyListener('b', brake);
+				addKeyListener('a', accelerate);
+				addKeyListener('l', turnLeft);
+				addKeyListener('r', turnRight);
 			}
 		}
 		else {
 			if(timer != null) {
 				timer.cancel();
 				playPauseButton.setText("Play");
+				accelerateButton.setEnabled(false);
+				turnLeftButton.setEnabled(false);
+				positionButton.setEnabled(true);
+				brakeButton.setEnabled(false);
+				turnRightButton.setEnabled(false);
+				removeKeyListener('b', brake);
+				removeKeyListener('a', accelerate);
+				removeKeyListener('l', turnLeft);
+				removeKeyListener('r', turnRight);
 			}
 		}
 	}
-	
+	public static boolean getMode() {
+		return play;
+	}
 }

@@ -33,10 +33,10 @@ public abstract class GameObject implements IDrawable, ICollider{
 	
 	//set location of object within 0 and 1000 x and y
 	public void setLocation(float x, float y) {
-		if(x >=0 && x<= GameWorld.getSize()[0]) {
+		if(x >=0 && x<= GameWorld.getSize()[0] - 25) {
 			location.setX(x);
 		}
-		if(y >= 0 && y<= GameWorld.getSize()[1]) {
+		if(y >= 0 && y<= GameWorld.getSize()[1] - 25) {
 			location.setY(y);	
 		}
 	}

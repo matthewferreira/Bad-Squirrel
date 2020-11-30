@@ -82,6 +82,7 @@ public class NonPlayerSquirrel extends Squirrel{
 				this.setSpeed(maxSpd);
 			}
 			fadeColor();
+			this.getSounds()[0].play();
 		}
 		//if collides with squirrel, dmgLevel + 2, set new max speed, change speed, fade color
 		else if(g instanceof Squirrel) {
@@ -93,6 +94,7 @@ public class NonPlayerSquirrel extends Squirrel{
 				this.setSpeed(maxSpd);
 			}
 			fadeColor();
+			this.getSounds()[0].play();
 		}
 		//if collides with nut, check if nut is in order, check if nut is last nut and end game
 		else if(g instanceof Nut) {
@@ -105,11 +107,13 @@ public class NonPlayerSquirrel extends Squirrel{
 			if(lnr == Nut.getObjCount()) {
 				GameWorld.npcWin();
 			}
+
 		}
 		//if collides with tomato, energyLevel + nutrition of tomato
 		else if(g instanceof Tomato) {
 			enerLvl += ((Tomato) g).getNutrition();
 			this.setEnergyLevel(enerLvl);
+			this.getSounds()[2].play();
 		}
 	}
 

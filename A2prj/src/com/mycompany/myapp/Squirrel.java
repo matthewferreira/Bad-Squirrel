@@ -31,7 +31,7 @@ public abstract class Squirrel extends Movable implements ISteerable{
 		super.setLocation(50 + (20 + random.nextInt(100))*super.getSize(), 200 + (20 + random.nextInt(100))*super.getSize());
 		//adding armor to NPC squirrels
 		maxDamage = armor + maxDamage;
-		//createSounds();
+		//this.createSounds();
 	}
 	//constructor for player squirrel to specify start location
 	public Squirrel(float x, float y) {
@@ -39,7 +39,7 @@ public abstract class Squirrel extends Movable implements ISteerable{
 		super.setSpeed(5);
 		super.setHeading(0);
 		armor = 0;
-		//createSounds();
+		this.createSounds();
 	}
 	//getters and setters for squirrel vars
 	public int getSteeringDirection() { return steeringDirection; }
@@ -156,9 +156,9 @@ public abstract class Squirrel extends Movable implements ISteerable{
 	public int getMaxDamage() {return maxDamage;}
 	
 	public void createSounds() {
-		//Sound[] sounds = getSounds();
-		//sounds[0] = new Sound("death2.wav");
-		//sounds[1] = new Sound("death2.wav");
+		deathSound = new Sound("death2.wav");
+		hurtSound = new Sound("pain100_1.wav");
+		eatSound = new Sound("ra.wav");
 		//sounds[2] = new Sound("ra.wav");
 		//hurtSound = new Sound("pain100_1.wav");
 		

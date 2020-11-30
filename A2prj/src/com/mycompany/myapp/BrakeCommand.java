@@ -13,8 +13,11 @@ public class BrakeCommand extends Command{
 	
 	@Override
 	public void actionPerformed(ActionEvent ev) {
-		System.out.println("Applying Brakes");
-		gameWorld.brake();
+		if(Game.getMode()) {
+			System.out.println("Applying Brakes");
+			gameWorld.brake();
+		}
+
 	}
 
 }

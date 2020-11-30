@@ -12,7 +12,9 @@ public class AccelerateCommand extends Command{
 	
 	@Override
 	public void actionPerformed(ActionEvent ev) {
-		System.out.println("Accelerating");
-		gameWorld.accelerate();
+		if(Game.getMode()) {
+			System.out.println("Accelerating");
+			gameWorld.accelerate();
+		}
 	}
 }
