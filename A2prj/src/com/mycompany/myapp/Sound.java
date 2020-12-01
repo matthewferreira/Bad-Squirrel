@@ -8,6 +8,7 @@ import com.codename1.ui.Display;
 public class Sound {
 	private Media m;
 	public Sound(String fileName) {
+		while(m == null) {
 		if (Display.getInstance().getCurrent() == null){
 			System.out.println("Error: Create sound objects after calling show()!");
 			System.exit(0);
@@ -19,6 +20,7 @@ public class Sound {
 		catch(Exception e){
 			e.printStackTrace();
 			}
+		}
 	}
 	public void play() {
 		//start playing the sound from time zero (beginning of the sound file)

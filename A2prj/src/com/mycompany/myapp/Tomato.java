@@ -78,16 +78,10 @@ public class Tomato extends Fixed{
 		
 		int thisCenterX = (int)(this.getLocation().getX()) + this.getSize();
 		int thisCenterY = (int)(this.getLocation().getY()) + this.getSize();
-		System.out.println("--------------------");
-		System.out.println("CENTER: " + thisCenterX + ", " + thisCenterY);
 		int px = (int) pPtrRelPrnt.getX(); // pointer location relative to
 		int py = (int) pPtrRelPrnt.getY(); //parents origin
-		System.out.println("POINTER: " + px + ", " + px);
-		System.out.println("CMP REL PRNT: " + pCmpRelPrnt.getX() + ", " + pCmpRelPrnt.getY());
-		
 		int xLoc = (int) (pCmpRelPrnt.getX()+thisCenterX);// shape location relative
 		int yLoc = (int) (pCmpRelPrnt.getY()+thisCenterY);// to parents origin
-		System.out.println("SHAPE: " + xLoc + ", " + yLoc);
 		if( (px >= xLoc - this.getSize()*3) && (px <= xLoc+this.getSize()*3) && (py >= yLoc - this.getSize()*3) && (py <= yLoc+this.getSize()*3) ) 
 		{ return true; }
 		else {return false;}

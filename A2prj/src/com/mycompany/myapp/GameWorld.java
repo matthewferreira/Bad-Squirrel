@@ -12,6 +12,11 @@ public class GameWorld extends Observable{
 	private int livesRemaining = 3;
 	private static boolean sound = false;
 	private static int[] size = new int[2];
+	private static Sound hurtSound;
+	private static Sound deathSound;
+	private static Sound eatSound;
+	private static BGSound bgSound;
+	
 	
 	public void init() {
 		gameObjectCollection = new GameObjectCollection();
@@ -41,6 +46,9 @@ public class GameWorld extends Observable{
 	
 	//move all objects, reduce squirrel energy, increase gameclock, check if squirrel out of energy (if so, loseLife())
 	public void tick() {
+		//if(sound && Game.getMode()) {
+			//bgSound.play();
+		//}
 		moveAll();
 		checkCollisions();
 		getPlayer().reduceEnergyLevel();
@@ -70,12 +78,10 @@ public class GameWorld extends Observable{
 	}
 	
 	public void checkCollisions() {
-		System.out.println("-----------CHECKING COLLISIONS-----------");
 		IIterator elements = gameObjectCollection.getIterator();
 		IIterator elements2 = gameObjectCollection.getIterator();
 		while(elements.hasNext()) {
 			GameObject current = elements.getNext();
-			
 			for(int i = 0; i < elements2.length(); i++) {
 				GameObject collideOb = elements2.get(i);
 				if(current.collidesWith(collideOb)) {
@@ -92,7 +98,6 @@ public class GameWorld extends Observable{
 								addTomato();
 							}
 						}
-						System.out.println(current + " collides with " + collideOb + ": TRUE");
 					}
 				}
 				else {
@@ -102,7 +107,6 @@ public class GameWorld extends Observable{
 				}
 			}
 		}
-		System.out.println("-----------DONE-----------");
 		if(getPlayer().getDamageLevel() >= getPlayer().getMaxDamage()) {
 			loseLife();
 		}
@@ -273,6 +277,20 @@ public class GameWorld extends Observable{
 	public IIterator getObjectList() {
 		IIterator elements = gameObjectCollection.getIterator();
 		return elements;
+	}
+	
+	public static Sound[] getSounds() {
+		Sound[] sounds = {hurtSound, deathSound, eatSound};
+		return sounds;
+	}
+	public static void createSounds() {
+		hurtSound = new Sound("pain.wav");
+		deathSound = new Sound("death2.wav");
+		eatSound = new Sound("eat.wav");
+		bgSound = new BGSound("bgSound.wav");
+	}
+	public BGSound getBgsound() {
+		return bgSound;
 	}
 	
 	//gets player squirrel

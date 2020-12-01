@@ -16,10 +16,7 @@ public abstract class Squirrel extends Movable implements ISteerable{
 	private int maxDamage = 100;
 	private int armor = 10;
 	private ArrayList<GameObject> collisionVec = new ArrayList<GameObject>();
-	private Sound hurtSound;
-	private Sound deathSound;
-	private Sound eatSound;
-	
+
 	// basic squirrel constructor for npc squirrels
 	public Squirrel() {
 		
@@ -39,7 +36,7 @@ public abstract class Squirrel extends Movable implements ISteerable{
 		super.setSpeed(5);
 		super.setHeading(0);
 		armor = 0;
-		this.createSounds();
+		//this.createSounds();
 	}
 	//getters and setters for squirrel vars
 	public int getSteeringDirection() { return steeringDirection; }
@@ -154,21 +151,7 @@ public abstract class Squirrel extends Movable implements ISteerable{
 	}
 	
 	public int getMaxDamage() {return maxDamage;}
-	
-	public void createSounds() {
-		deathSound = new Sound("death2.wav");
-		hurtSound = new Sound("pain100_1.wav");
-		eatSound = new Sound("ra.wav");
-		//sounds[2] = new Sound("ra.wav");
-		//hurtSound = new Sound("pain100_1.wav");
-		
-	}
-	
-	public Sound[] getSounds() {
-		Sound[] sounds = {hurtSound, deathSound, eatSound};
-		return sounds;
-	}
-	
+
 	@Override
 	public String toString() {
 		return "Squirrel: loc=" + this.getLocation().getX() + ", " + this.getLocation().getY() + " color=" + this.printColor() + " heading=" + this.getHeading() + " speed=" + this.getSpeed() + " size=" + this.getSize() + " maxSpeed=" + this.getMaximumSpeed() + " steeringDirection=" + this.getSteeringDirection() + " energyLevel=" + this.getEnergyLevel() + " damageLevel=" + this.getDamageLevel();

@@ -72,6 +72,7 @@ public class NonPlayerSquirrel extends Squirrel{
 		int maxSpd = this.getMaximumSpeed();
 		int lnr = this.getLastNut();
 		int enerLvl = this.getEnergyLevel();
+		Sound[] sounds = GameWorld.getSounds();
 		//if collides with bird, dmgLevel + 1, set new max speed, change speed, fade color
 		if(g instanceof Bird) {
 			dmgLvl += 1;
@@ -82,7 +83,9 @@ public class NonPlayerSquirrel extends Squirrel{
 				this.setSpeed(maxSpd);
 			}
 			fadeColor();
-			this.getSounds()[0].play();
+			if(GameWorld.getSound()) {
+				sounds[0].play();
+			}
 		}
 		//if collides with squirrel, dmgLevel + 2, set new max speed, change speed, fade color
 		else if(g instanceof Squirrel) {
@@ -94,7 +97,9 @@ public class NonPlayerSquirrel extends Squirrel{
 				this.setSpeed(maxSpd);
 			}
 			fadeColor();
-			this.getSounds()[0].play();
+			if(GameWorld.getSound()) {
+				sounds[0].play();
+			}
 		}
 		//if collides with nut, check if nut is in order, check if nut is last nut and end game
 		else if(g instanceof Nut) {
@@ -107,13 +112,18 @@ public class NonPlayerSquirrel extends Squirrel{
 			if(lnr == Nut.getObjCount()) {
 				GameWorld.npcWin();
 			}
+			if(GameWorld.getSound()) {
+				sounds[2].play();
+			}
 
 		}
 		//if collides with tomato, energyLevel + nutrition of tomato
 		else if(g instanceof Tomato) {
 			enerLvl += ((Tomato) g).getNutrition();
 			this.setEnergyLevel(enerLvl);
-			this.getSounds()[2].play();
+			if(GameWorld.getSound()) {
+				sounds[2].play();
+			}
 		}
 	}
 

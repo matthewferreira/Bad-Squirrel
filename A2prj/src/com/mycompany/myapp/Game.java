@@ -30,7 +30,7 @@ public class Game extends Form implements Runnable{
 	private TurnLeftCommand turnLeft;
 	private TurnRightCommand turnRight;
 	
-	
+
 	//game constructor
 	public Game() {
 		gw = new GameWorld(); // create Observable GameWorld
@@ -38,10 +38,7 @@ public class Game extends Form implements Runnable{
 		sv = new ScoreView(); // create an Observer for the game/player-squirrel
 		gw.addObserver(mv); // register map observer
 		gw.addObserver(sv); // register score observer 
-		
-		timer = new UITimer(this);//make the timer tick every second and bind it to this form
-		timer.schedule(20, true, this);
-		
+
 		this.setTitle("Bad-Squirrel"); //set title of GUI window
 		this.setLayout(new BorderLayout()); //set layout of GUI container
 		
@@ -166,12 +163,17 @@ public class Game extends Form implements Runnable{
 		this.add(BorderLayout.EAST, eastContainer);
 		eastContainer.add(brakeButton);
 		eastContainer.add(turnRightButton);
-		
+	
 		this.show();
 		GameWorld.setSize(mv.getSize()[0], mv.getSize()[1]-25);
 		gw.init();			// init game world
+		GameWorld.createSounds();
+		revalidate();
+		timer = new UITimer(this);//make the timer tick every second and bind it to this form
+		timer.schedule(20, true, this);
+		
 	}
-
+	
 	@Override
 	public void run() {
 		gw.tick();
@@ -192,6 +194,7 @@ public class Game extends Form implements Runnable{
 				addKeyListener('a', accelerate);
 				addKeyListener('l', turnLeft);
 				addKeyListener('r', turnRight);
+				gw.getBgsound().play();
 			}
 		}
 		else {
@@ -207,6 +210,7 @@ public class Game extends Form implements Runnable{
 				removeKeyListener('a', accelerate);
 				removeKeyListener('l', turnLeft);
 				removeKeyListener('r', turnRight);
+				gw.getBgsound().pause();
 			}
 		}
 	}
